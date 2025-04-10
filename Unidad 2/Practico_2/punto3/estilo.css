@@ -1,0 +1,30 @@
+/* CSS para la página desarrollo.html del punto 3 */
+body {
+    background-color: darkslategray;
+}
+h1 {
+    font-family: arial;
+    color: white;
+    font-size: 18px;
+}
+h2 {
+    color: bisque;
+}
+h3 {
+    color: darkblue;
+    background-color: cornsilk;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+p {
+    color: lightyellow;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+ol {
+    color: lightcyan;
+}
+li {
+    color: aliceblue;
+}
+a {
+    color: aliceblue;
+}

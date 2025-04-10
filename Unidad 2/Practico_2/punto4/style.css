@@ -1,0 +1,26 @@
+body {
+    background-color: palegoldenrod;
+    height: 90vh;
+    border: red 1px solid;
+}
+h1 {
+    font-family: 'Times New Roman', Times, serif;
+    color: darkgreen;
+    text-align: center;
+}
+table {
+    border: solid;
+    height: 40%;
+    width: 70%;
+}
+td {
+    border: solid;
+}
+.imagenes {
+    height: 60%;
+    width: 50%;
+}
+#fila_central {
+    height: 20px;
+    border: red 1px solid;
+}
