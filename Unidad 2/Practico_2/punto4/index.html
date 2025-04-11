@@ -7,20 +7,26 @@
 
     <body>
         <header><h1>Videojuegos</h1></header><br>
+        <main>
         <section>
             <article>
                 <table>
+                    <colgroup> <!-- me permite ajustar cada columna de manera individual-->
+                        <col style="width: 15%;">
+                        <col style="width: 32%;">
+                        <col style="width: 53%;">
+                    </colgroup>
                     <tr>
                         <td rowspan="5">Acci&oacute;n</td>
                         <td>Death Stranding 2</td>
-                        <td class="imagenes" rowspan="2">imagen1</td>
+                        <td rowspan="2"><div class="imagenes"><img src="death_stranding2.jpg" alt="Death Stranding 2"></div></td>
                     </tr>
                     <tr>
                         <td>Borderlands 4</td>
                     </tr>
                     <tr>
-                        <td id="fila_central">Mafia: The Old Country</td>
-                        <td class="imagenes" rowspan="2">imagen2</td>
+                        <td>Mafia: The Old Country</td>
+                        <td rowspan="3"><div class="imagenes"><img src="ac_shadows.jpg" alt="Assassin's Creed: Shadows"></div></td>
                     </tr>
                     <tr>
                         <td>Assassin's Creed Shadows</td>
@@ -28,8 +34,34 @@
                     <tr>
                         <td>DOOM: The Dark Ages</td>
                     </tr>
+                    <tr>
+                        <td rowspan="4">Terror</td>
+                        <td>Directive 8020</td>
+                        <td rowspan="4"><div class="imagenes"><img src="directive.jpg" alt="Directive 8020"></div></td>
+                    </tr>
+                    <tr>
+                        <td>Little Nightmares 3</td>
+                    </tr>
+                    <tr>
+                        <td>Dark Fracture</td>
+                    </tr>
+                    <tr>
+                        <td>Asylum</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3">Lucha</td>
+                        <td>2XKO</td>
+                        <td rowspan="3"><div class="imagenes"><img src="2xko.png" alt="2XKO"></div></td>
+                    </tr>
+                    <tr>
+                        <td>Capcom Fighting Collection 2</td>
+                    </tr>
+                    <tr>
+                        <td>Fatal Fury: City of the Wolves</td>
+                    </tr>
                 </table>
             </article>
-        </section>>
+        </section>
+        </main>
     </body>
 </html>
