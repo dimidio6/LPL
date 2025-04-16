@@ -16,6 +16,17 @@ table {
     width: 70%;
     margin: auto; /* centra la tabla en el body */
 }
+#col_1 {
+    width: 15%;
+    background-color: lightblue;
+}
+#col_2 {
+    width: 32%;
+    background-color: aliceblue;
+}
+#col_3 {
+    width: 53%;
+}
 td {
     border: solid;
     text-align: center;
@@ -48,4 +59,7 @@ section {
 }
 header {
     height: 10vh;
+}
+.generos {
+    font-size: 3vh;
 }
