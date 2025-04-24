@@ -1,0 +1,40 @@
+.solid {
+    border-style: solid;
+    border-color: red;
+    border-width: thick;
+}
+.dotted {
+    border-style: dotted;
+    border-color: green;
+    border-width: thick;
+}
+.dashed {
+    border-style: dashed;
+    border-color: green;
+    border-width: thick;
+}
+.double {
+    border-style: double;
+    border-color: green;
+    border-width: thick;
+}
+.groove {
+    border-style: groove;
+    border-color: green;
+    border-width: thick;
+}
+.ridge {
+    border-style: ridge;
+    border-color: green;
+    border-width: thick;
+}
+.inset {
+    border-style: inset;
+    border-color: green;
+    border-width: thick;
+}
+.outset {
+    border-style: outset;
+    border-color: green;
+    border-width: thick;
+}

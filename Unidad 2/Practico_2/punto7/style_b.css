@@ -1,0 +1,13 @@
+ol {
+    list-style-type: disc;
+    text-transform: capitalize;
+}
+#lista_A {
+    background-color: blue;
+}
+#lista_B {
+    background-color: red;
+}
+#lista_C {
+    background-color: green;
+}

@@ -1,0 +1,4 @@
+.parrafo {
+    display: flex; /* Distribuye los párrafos horizontalmente */
+    align-items: stretch; /* Alinea las columnas a la misma altura */
+}
