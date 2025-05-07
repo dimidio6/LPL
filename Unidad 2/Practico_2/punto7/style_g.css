@@ -1,0 +1,54 @@
+section {
+    width: 100%;
+}
+article {
+    display: flex;
+}
+.texto { /* hago una misma clase para que cada parte de la pág. abarque el 50% del ancho */
+    width: 50%; /* 50% del ancho de la pantalla */
+    text-align: justify;
+    padding: 30px;
+    margin: 1rem;
+}
+#villa_elisa {
+    width: 100%;
+}
+* {
+    font-family: sans-serif;
+}
+span {
+    color:cadetblue;
+}
+ul {
+    list-style: none; /* quito las viñetas por defecto */
+}
+li {
+    position: relative;
+    line-height: 1.8; /* espaciado vertical entre las lineas */
+    text-align: start;
+}
+li::before { /* crea un pseudo elemento antes de cada li y de esta forma puedo modificar el tamaño de la viñeta*/
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: -5%; /* desplazo hacia la izquierda la viñeta */
+    top: 7%;
+    background-image: url("../../Imagen TP 2/check.svg");
+    background-size: contain;
+}
+#like {
+    width: 20px;
+    height: 20px;
+    position: relative; /* establezco relative para poder mover la imagen */
+    left: 27%;
+    bottom: 3px;
+}
+#piscinas {
+    background-color: cornflowerblue ;
+    color: white;
+    border-radius: 5px; /* esquinas redondeadas */
+    padding: 2%;
+    text-align: center;
+    overflow: hidden; /* evita el colpaso de márgenes y que aparezcan unas líneas indeseables */
+}
