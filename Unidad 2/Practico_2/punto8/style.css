@@ -1,0 +1,45 @@
+* {
+    text-align: center
+}
+h1 {
+    font-size: 2rem;
+    margin-top: 0;
+}
+h2 {
+    margin-top: -3%;
+}
+#id_campos {
+    border: 0.1rem solid black;
+    line-height: 2; /* espaciado vertical */
+    margin: 0 28%; /* primer numero: superior/inferior; segundo numero: izquierda/derecha */
+    
+}
+input {
+    border-style: inset;
+    border-top: 0.15rem solid black;
+    border-left: 0.15rem solid black;
+    margin-left: 0.3rem;
+    max-height: 20px;
+    inline-size: fit-content; /* el tamaño del input se adapta al contenido */
+}
+#texto_campos {
+    /* border: 2px solid red; */
+    text-align: right;
+    display: grid; /* hago una grilla */
+    grid-template-columns: 50% 50%; /* cuanto ocupa cada columna, y la cantidad */
+    grid-template-rows: repeat(8, max-content); /* cuantas filas tiene el grid */
+}
+button {
+    border-style: outset;
+    border-right: 0.12rem solid black;
+    border-bottom: 0.11rem solid black;
+    border-top: 0.01rem solid black;
+    border-left: 0.01rem solid black;
+    margin: 0 0.3rem; /* separación entre botones */
+    margin-top: 2rem;
+    width: 3rem; /* ancho del boton */
+    cursor: pointer; /* cambia el cursor cuando se posiciona sobre el boton */
+}
+#botones {
+    justify-self: center;
+}
