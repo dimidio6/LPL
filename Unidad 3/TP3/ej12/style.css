@@ -1,0 +1,28 @@
+#login {
+    /* border: 2px solid red; */
+    width: 15rem;
+    height: 8rem;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    text-align: center;
+    align-items: center;
+    margin: 0 0;
+    
+}
+label {
+    text-align: left;
+}
+input {
+    inline-size: fit-content;
+    margin-left: -3.2rem; /* llevo el input más a la izquierda */
+}
+#id_aceptar {
+    margin: 2rem 6rem;
+    text-align: center;
+    cursor: pointer;
+}
+#datos {
+    border: 2px solid red;
+    display: flex;
+    flex-direction: column;
+}

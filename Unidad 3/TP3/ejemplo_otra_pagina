@@ -1,0 +1,6 @@
+-------------------------
+JavaScript
+-------------------------
+function otra_ventana() {
+    window.location.href="otra_ventana";
+}

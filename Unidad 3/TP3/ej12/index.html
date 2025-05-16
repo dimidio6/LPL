@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <title>P&aacute;gina</title>
+        <link rel="stylesheet" href="style.css">
+        <script type="text/javascript" src="script.js"></script>
+    </head>
+    <body onload="chequeo_visita();">
+        <header><h1>Bienvenido</h1></header>
+        <section>
+            <article>
+                <div id="login">
+                    <label for="id_nombre">Nombre</label> <!-- el label me ayuda para asociar el texto al input -->
+                    <input type="text" id="id_nombre" name="nombre">
+                    <label for="id_apellido">Apellido</label>
+                    <input type="text" id="id_apellido" name="apellido">
+                </div>
+                <button onclick="chequeo_registro(id_nombre.value,id_apellido.value)" type="button" id="id_aceptar">Aceptar</button>
+            </article>
+            <article>
+                <h3 id="info"></h3>
+                <p id="p_nombre"></p>
+                <p id="p_apellido"></p>
+                <p id="p_visitas"></p>
+                <p id="p_ultimo_acceso"></p>
+            </article>
+        </section>
+    </body>
+</html>
