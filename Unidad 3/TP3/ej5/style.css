@@ -1,0 +1,57 @@
+* {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    /* border: 2px solid red;; */
+}
+header {
+    margin: 2% 0;
+}
+#galeria {
+    border: 2px solid black;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columnas, cada una ocupa 1 fracción del espacio disponible */
+    gap: 0; /* espacio entre las imágenes */
+    padding: 0; /* espacio entre las imagenes y el borde del grid */
+    margin: 0 10%; /* margen superior e inferior de 0, y 10% a los lados */
+    margin-top: 4%; /* margen superior */
+}
+.imagenes {
+    width: 100%;
+    height: 100%;
+    border: 2px solid black;
+    gap: 10px;
+    cursor: pointer; /* cambia el cursor cuando se posa sobre alguna imagen */
+}
+.imagenes:hover { /* hover -> para cuando se pasa el mouse por encima */
+    opacity: 0.8; /* cambia la opacidad cuando se pasa el mouse */
+}
+img {
+    width: 90%; /* las achico un poco para que se vean los bordes internos del grid */
+    height: 90%;
+    padding: 5%;
+}
+#modal { /* la cajita de la imagen */
+    width: 50vw;
+    height: 70vh;
+    transform: translate(50%, 20%);
+    overflow: hidden; /* hace que no se aparezca la barra de desplazamiento */
+    border-radius: 5px;
+}
+#imagen_abierta { /* la imagen que se abre */
+    display: flex; /* sirve para usar justify-content y align-items */
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    height: 80%;
+    transform: translateX(5%); /* la muevo un poquito por que por alguna razón no queda centrada horizontalmente */
+}
+#cerrar {
+    display: flex;
+    justify-content: center; /* centra el texto del botón */
+    position: relative;
+    left: 9.5%;
+    bottom: 3%;
+    width: 3rem;
+    cursor: pointer;
+}
