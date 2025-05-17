@@ -1,0 +1,30 @@
+h1 {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    text-align: center;
+}
+span {
+    color: deeppink;
+    font-family: cursive;
+}
+article {
+    display: flex;
+    justify-content: center;
+}
+#login {
+    /* border: 2px solid red; */
+    width: 15rem;
+    height: 8rem;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    text-align: center;
+    align-items: center;
+    margin: 0 0;
+    
+}
+label {
+    text-align: left;
+}
+input {
+    inline-size: fit-content;
+    margin-left: -3.2rem; /* llevo el input más a la izquierda */
+}
