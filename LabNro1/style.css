@@ -1,0 +1,33 @@
+h1 {
+    display: flex;
+    justify-content: center;
+}
+#ingreso {
+    display: flex;
+    justify-content: center;
+    margin-top: 4rem;
+}
+label {
+    margin-right: 1rem;
+}
+button {
+    margin-left: 1rem;
+    cursor: pointer;
+}
+#bienvenida {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    margin-top: 4rem;
+}
+div {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+#button_gestionar {
+    background-color: greenyellow;
+    height: 15px;
+    width: 20px;
+}
