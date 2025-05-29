@@ -2,8 +2,36 @@
 <html lang="es">
     <head>
         <title>Gesti&iacute;n de tareas</title>
+        <link rel="stylesheet" href="style.css">
+        <script type="text/javascript" src="tareas.js"></script>
     </head>
     <body>
-        Tareas
+        <header><h1>Gesti&oacute;n de tareas</h1></header>
+        <section>
+            <article id="ingresar_tareas">
+                <h2>Ingresar tareas</h2>
+                <input type="text" id="input_tarea" placeholder="Ingresar descripci&oacute;n">
+                <button type="button" id="agregar_tarea">Agregar</button>
+                <button type="button" id="limpiar_tareas">Limpiar tareas</button>
+            </article>
+            <article id="pendientes">
+                <h2>Listado de tareas pendientes</h2>
+                <table id="tabla_pendientes">
+                    <tr id="fila_principal_pendiente">
+                        <th>Finalizar</th>
+                        <th>Nombre</th>
+                    </tr>
+                </table>
+                <button type="button" id="terminar_tarea">Terminar tarea</button>
+            </article>
+            <article id="terminadas">
+                <h2>Listado de tareas terminadas</h2>
+                <table id="tabla_terminadas">
+                    <tr id="fila_principal_terminada">
+                        <th>Nombre</th>
+                    </tr>
+                </table>
+            </article>
+        </section>
     </body>
 </html>

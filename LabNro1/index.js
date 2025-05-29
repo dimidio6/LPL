@@ -34,11 +34,12 @@ function creo_boton() {
     var gestionar = document.getElementById("gestionar");
     if (texto_gestionar.innerHTML == "") { // para asegurarme de crear el botón 1 sola vez
         console.log("creación de botón");
-        texto_gestionar.innerHTML = "Gestionar tareas  ==>";
+        texto_gestionar.innerHTML = "      ";
         var nuevo_boton = document.createElement("button");
         nuevo_boton.setAttribute("type","button");
         nuevo_boton.setAttribute("id","button_gestionar");
-        nuevo_boton.setAttribute("onclick","ir_tareas()")
+        nuevo_boton.setAttribute("onclick","ir_tareas()");
+        nuevo_boton.innerText = "Gestionar tareas";
         gestionar.appendChild(nuevo_boton);
     }
     else (
