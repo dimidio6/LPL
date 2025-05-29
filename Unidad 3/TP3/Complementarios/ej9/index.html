@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <title>Tienda de ropa</title>
+    <link rel="stylesheet" href="style.css" />
+    <script type="text/javascript" src="script.js"></script>
+  </head>
+  <body>
+    <header><h1>Tienda de ropa</h1></header>
+    <section>
+      <article id="catalogo">
+        <div>
+          <img src="pantalon.jpeg" /><br />
+          <label class="producto">Pantalon</label>
+          <label class="precio">$100</label>
+          <button type="button" class="agregar_prenda">+</button>
+        </div>
+        <div>
+          <img src="remera.jpg" />
+          <label class="producto">Remera</label>
+          <label class="precio">$60</label>
+          <button type="button" class="agregar_prenda">+</button>
+        </div>
+        <div>
+          <img src="medias.jpg" />
+          <label class="producto">Medias</label>
+          <label class="precio">$20</label>
+          <button type="button" class="agregar_prenda">+</button>
+        </div>
+      </article>
+    </section>
+    <section id="carrito">
+      <article>
+        <h2>Carrito</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Cantidad</th>
+              <th>Importe</th>
+            </tr>
+          </thead>
+          <tbody id="tabla"></tbody>
+        </table>
+      </article>
+    </section>
+  </body>
+</html>
