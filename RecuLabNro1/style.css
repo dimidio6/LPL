@@ -1,0 +1,63 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+header {
+    margin-bottom: 4rem;
+}
+h1 {
+    display: flex;
+    padding-top: 2rem;
+    justify-content: center;
+}
+body {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-align: center;
+    background-image: linear-gradient(180deg, #e8e0af, #527e71);
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: cover;
+    background-attachment: fixed;
+    height: auto;
+}
+section {
+    /* border: 2px solid red; */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#ingreso {
+    width: 23%;
+    height: 25%;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: space-evenly;
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0px 2px 20px black;
+    transition: transform 0.7s ease;
+}
+#ingreso:hover {
+    transform: scale(1.05);
+}
+#bienvenida {
+    margin-top: 3rem;
+}
+#ir_gestion {
+    margin-top: 3rem;
+}
+#pendientes, #iniciadas, #terminadas {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+table, td, th {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 2px solid black;
+    border-collapse: collapse;
+    padding: 10px;
+    margin: 7px;
+}
