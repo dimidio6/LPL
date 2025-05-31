@@ -1,11 +1,34 @@
+function getCookie(nombreCookie) {
+    let cookies = document.cookie;
+    let pos = cookies.search(nombreCookie + "=");
+    if (pos === -1) {
+        return "";
+    } else {
+        let principio = pos + nombreCookie.length + 1;
+        let fin = cookies.indexOf(";", principio);
+        if (fin === -1) {
+            fin = cookies.length;
+        }
+        return cookies.substring(principio, fin);
+    }
+}
+
+function setCookie(nombre, tiempo, valor) {
+    let nombreCookie = nombre
+    let tiempoCookie = tiempo
+    let valorCookie = valor
+
+    document.cookie = nombreCookie + "=" + valorCookie + "; max-age=" + tiempoCookie;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     var catalogo = document.getElementById("catalogo");
     var botones = document.querySelectorAll("button[class='agregar_prenda']");
     // console.log(botones)
 
     // carga la tabla con el carrito guardado en LocalStorage
-    tabla_cuerpo.innerHTML = localStorage.getItem("carrito");
-    total_carrito.innerHTML = localStorage.getItem("total_carrito");
+    tabla_cuerpo.innerHTML = localStorage.getItem("carrito_"+getCookie("usuario_actual")); // creo un carrito por cada usuario
+    total_carrito.innerHTML = localStorage.getItem("total_carrito_"+getCookie("usuario_actual")); // creo un total por cada usuario
 
     botones.forEach((boton) => {
         boton.addEventListener("click", function () {
@@ -77,9 +100,9 @@ document.addEventListener("DOMContentLoaded", () => {
             fila.appendChild(col_import);
             tabla.appendChild(fila); // agrego la fila al <tbody> de la tabla
             
-            precio_viejo = parseInt(localStorage.getItem("total_carrito"));
+            precio_viejo = parseInt(localStorage.getItem("total_carrito_"+getCookie("usuario_actual")));
             precio_viejo += parseInt(precio.substring(1));
-            localStorage.setItem("total_carrito", precio_viejo);
+            localStorage.setItem("total_carrito_"+getCookie("usuario_actual"), precio_viejo);
             total_carrito.innerHTML = precio_viejo;
             
         } else {
@@ -108,23 +131,23 @@ document.addEventListener("DOMContentLoaded", () => {
                         valor_numerico.innerHTML = valor_numerico_num; // actualizo importe
                         
                         // localStorage.setItem("total_carrito", valor_numerico.innerText);
-                        precio_viejo = parseInt(localStorage.getItem("total_carrito"));
+                        precio_viejo = parseInt(localStorage.getItem("total_carrito_"+getCookie("usuario_actual")));
                         precio_viejo += parseInt(precio.substring(1));
-                        localStorage.setItem("total_carrito", precio_viejo);
+                        localStorage.setItem("total_carrito_"+getCookie("usuario_actual"), precio_viejo);
                         total_carrito.innerHTML = precio_viejo;
                     }
                 });
             });
         }
         // guarda la tabla_cuerpo actualizada en LocalStorage
-        localStorage.setItem("carrito", tabla_cuerpo.outerHTML);
+        localStorage.setItem("carrito_"+getCookie("usuario_actual"), tabla_cuerpo.outerHTML); // traigo el carrito del usuario actual
     }
     
     btn_limpiar.addEventListener("click", () => {
         tabla_cuerpo.innerHTML = "";
         // actualizo el LocaStorage con la tabla limpia
-        localStorage.setItem("carrito", tabla_cuerpo.outerHTML);
-        localStorage.setItem("total_carrito", "0");
+        localStorage.setItem("carrito_"+getCookie("usuario_actual"), tabla_cuerpo.outerHTML);
+        localStorage.setItem("total_carrito_"+getCookie("usuario_actual"), "0");
         total_carrito.innerHTML = "0";
     });
 });

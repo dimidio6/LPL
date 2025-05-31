@@ -14,7 +14,7 @@ h2 {
     margin-bottom: 1rem;
 }
 section {
-    border: 2px solid green;
+    /* border: 2px solid green; */
     margin-bottom: 1rem;
     display: flex;
     justify-content: center;
@@ -27,7 +27,7 @@ section {
     align-items: center;
 }
 div {
-    border: 2px solid yellow;
+    /* border: 2px solid yellow; */
     padding: 1rem 4rem;
 }
 img {
