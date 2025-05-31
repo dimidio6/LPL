@@ -66,3 +66,13 @@ th {
 td {
     border: 2px solid black;
 }
+/* moneda y span utilizado para el: $, y el: valor, del Importe en la tabla */
+#moneda {
+    display: contents;
+}
+span {
+    display: contents;
+}
+b {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}

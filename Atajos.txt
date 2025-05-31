@@ -1,0 +1,7 @@
+:v
+
+Selecciona toda la línea: Ctrl + L
+Alt + UP // Alt + DOWN: mueve la línea arriba o abajo
+Alt + Shift + UP // Alt + Shift + DOWN: copia la línea hacia arriba o abajo
+Ctrl + Shift + UP // Ctrl + Shift + DOWN: selecciona más de una linea (arriba o abajo)
+Ctrl + A: Selecciona todo
