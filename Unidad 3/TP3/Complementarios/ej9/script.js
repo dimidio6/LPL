@@ -27,6 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // console.log(botones)
 
     // carga la tabla con el carrito guardado en LocalStorage
+    carrito_usuario.innerHTML = getCookie("usuario_actual") // Pone el nombre del usuario actual al lado del H2 de Carrito
     tabla_cuerpo.innerHTML = localStorage.getItem("carrito_"+getCookie("usuario_actual")); // creo un carrito por cada usuario
     total_carrito.innerHTML = localStorage.getItem("total_carrito_"+getCookie("usuario_actual")); // creo un total por cada usuario
 
@@ -101,6 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
             tabla.appendChild(fila); // agrego la fila al <tbody> de la tabla
             
             precio_viejo = parseInt(localStorage.getItem("total_carrito_"+getCookie("usuario_actual")));
+            precio_viejo = isNaN(precio_viejo) ? 0 : precio_viejo; // Si precio_viejo es NAN le asigna 0, sino el numero del precio total del carrito guardado
             precio_viejo += parseInt(precio.substring(1));
             localStorage.setItem("total_carrito_"+getCookie("usuario_actual"), precio_viejo);
             total_carrito.innerHTML = precio_viejo;
@@ -125,13 +127,14 @@ document.addEventListener("DOMContentLoaded", () => {
                         let valor_numerico = col_importe.lastChild; // accedo únicamente al span del Importe (y no al $)
                         // console.log(valor_numerico)
                         valor_numerico_num =
-                            parseInt(valor_numerico.innerText) +
-                            parseInt(precio.substring(1)); // accedo solo al numero del DIV donde esta el precio original
-
+                        parseInt(valor_numerico.innerText) +
+                        parseInt(precio.substring(1)); // accedo solo al numero del DIV donde esta el precio original
+                        
                         valor_numerico.innerHTML = valor_numerico_num; // actualizo importe
                         
                         // localStorage.setItem("total_carrito", valor_numerico.innerText);
                         precio_viejo = parseInt(localStorage.getItem("total_carrito_"+getCookie("usuario_actual")));
+                        precio_viejo = isNaN(precio_viejo) ? 0 : precio_viejo; // Si precio_viejo es NAN le asigna 0, sino el numero del precio total del carrito guardado
                         precio_viejo += parseInt(precio.substring(1));
                         localStorage.setItem("total_carrito_"+getCookie("usuario_actual"), precio_viejo);
                         total_carrito.innerHTML = precio_viejo;
@@ -150,4 +153,8 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("total_carrito_"+getCookie("usuario_actual"), "0");
         total_carrito.innerHTML = "0";
     });
+
+    btn_volver.addEventListener("click", () => {
+        window.location.href = "./index.html" // Vuelve al login
+    })
 });
