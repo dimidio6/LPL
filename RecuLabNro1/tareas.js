@@ -122,5 +122,8 @@ document.addEventListener("DOMContentLoaded", () => {
         setCookie("tarea_ini_" + getCookie("usuario_actual"), 3600, "0");
         setCookie("tarea_fin_" + getCookie("usuario_actual"), 3600, "0");
     })
+    // tabla_iniciadas.innerHTML = ""
+    // tabla_pendientes.innerHTML = ""
+    // tabla_terminadas.innerHTML = ""
 
 })
