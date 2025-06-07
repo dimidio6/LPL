@@ -1,0 +1,17 @@
+* {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    justify-content: center;
+    font-family: 'Courier New', Courier, monospace;
+}
+header {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+div {
+    margin-bottom: 1rem;
+}
+button {
+    cursor: pointer;
+}

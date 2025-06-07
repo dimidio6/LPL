@@ -6,7 +6,7 @@
     <title>Numeros</title>
 </head>
 <body>
-    <header>Numeros del 1 al 1000</header>
+    <header><h1>Numeros del 1 al 1000</h1></header>
     <?php
     function esPrimo($numero) { // devuelve booleano
         if ($numero < 2) return false; // ningún menor que 2 es primo
@@ -31,13 +31,15 @@
         }
     }
     // impresión de arreglos
-    echo "<h3>Números pares:<h3><br>"
+    echo "<h3>Números pares:</h3>";
     foreach($pares as $numero) {
         echo $numero.' ';
     }
+    echo "<h3>Números impares:</h3>";
     foreach($impares as $numero) {
         echo $numero.' ';
     }
+    echo "<h3>Números primos:</h3>";
     foreach($primos as $numero) {
         echo $numero.' ';
     }
