@@ -22,44 +22,56 @@
                 function centro_numerico($num) {
                     // calculo la suma de los números a su izquierda
                     $lista_izq = 0;
-                    for ($i = $num-1; $i == 0; $i--) {
-                        $lista_izq -= $i;
+                    for ($i = 0; $i < $num; $i++) {
+                        $lista_izq += $i;
                     }
+                    // echo $lista_izq;
                     // compruebo si existe una lista de números a su derecha que de =
                     $lista_der = $num+1; // inicializo esta variable con el número+1
-                    while ($lista_der < $lista_izq) { // sumo hasta superar la lista izq
-                        $lista_der += ($lista_der+1);
+                    $siguiente = $lista_der; // inicializo la variable donde está el próximo número a sumar
+                    while ($lista_der <= $lista_izq) { // sumo hasta superar la lista izq
+                        $siguiente = $siguiente+1;
+                        $lista_der += ($siguiente);
                         if ($lista_der == $lista_izq) { // si llegan a dar iguales, ES UN CENTRO NUMÉRICO
                             return true;
                         }
                     }
+                    echo "<br>";
+                    // echo $lista_der;
                     return false; // NO es un CENTRO NUMÉRICO
                 }
 
                 if (isset($_POST['btnVerificar']) && $_POST['btnVerificar']=='verificar' && isset($_POST['nro_ingresado'])) {
-                    if ($_POST['nro_ingresado'] == $centro_numerico) { // en caso de que acierte
+                    if (centro_numerico($_POST['nro_ingresado'])) { // en caso de que acierte
                         header("Location: fin.php");                        
                     }
                     else { // en caso de no acertar 
-
                     // decrementa en 1 la cookie de puntos
-                    $puntos -= 1;
-                    setcookie("puntos", $puntos, time() + 3600);
+                        $puntos -= 1;
+                        setcookie("puntos", $puntos, time() + 3600);
 
-                    if ($puntos < 1) { // cuando agota los puntos va a la pantalla de fin
-                        header("Location: fin.php");
-                    }
+                        if ($puntos < 1) { // cuando agota los puntos va a la pantalla de fin
+                            header("Location: fin.php");
+                        }
 
                     // calculo la distancia del nro_ingresado al centro numérico
-                    $distancia = $_POST['nro_ingresado'] - $centro_numerico; 
-                    if ($distancia < 0) { // si me da negativo es porque nro_ingresado es < al centro numérico
-                        $distancia = $distancia*(-1); // asi que lo paso a positivo para calcular la distancia
-                    } 
-                    if ($distancia > 5) { 
-                            echo "<h3>Lejos de un centro numérico</h3>";
+                        $nro = $_POST['nro_ingresado'];
+                        $cerca = false;
+                        for ($i = $nro+1; $i < $nro+5; $i++) {
+                            if (centro_numerico($i)) {
+                                $cerca = true;
+                            }
+                        }
+                        for ($i = $nro-1; $i > $nro-5; $i--) {
+                            if (centro_numerico($i)) {
+                                $cerca = true;
+                            }
+                        }
+                        if ($cerca) {
+                            echo "<h3>Cerca de un centro numérico</h3>";
                         }
                         else {
-                            echo "<h3>Cerca de un centro numérico</h3>";
+                            echo "<h3>Lejos de un centro numérico</h3>";
                         }
                     }
                 }
