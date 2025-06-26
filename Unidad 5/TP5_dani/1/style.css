@@ -1,0 +1,43 @@
+body {
+    background-color: white;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+#irEjercicio2 {
+    margin-bottom: 10px;
+}
+
+#seleccionarInmueble {
+    margin-bottom: 10px;
+}
+
+h1 {
+    font-size: xx-large;
+    margin-bottom: 20px;
+}
+
+#botones {
+    display: flex;
+    gap: 3px;
+}
