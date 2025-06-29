@@ -1,0 +1,3 @@
+Consultas a la BDD:
+Utilizo un "LIKE" en la consulta de los Productos por Ubicación para que cuando el usuario quiere quitar el filtro
+vuelva a mostrar los productos de todas las ubicaciones.

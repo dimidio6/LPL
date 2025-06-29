@@ -1,20 +1,38 @@
 <?php
 include_once("producto.class.php");
 
-$lista_productos = producto::getProductosBD($_GET['busquedaProdu']);
+$respuesta = new stdClass();
 
-if (is_null($lista_productos)) {
-    $objTemp = new stdClass();
-    $objTemp->id_producto = '---';
-    $objTemp->nombre = '---';
-    $objTemp->id_supermercado = '---';
-    $objTemp->precio = '---';
-    $myJSON = json_encode($objTemp);
+if (isset($_GET['busquedaProdu'])) {
+    $lista_productos = producto::getProductosBD($_GET['busquedaProdu']); // trae la lista de productos de la BDD según la búsqueda
+    if (empty($lista_productos)) {
+        $respuesta->productos = []; // devuelve una lista vacía si no encuentra nada
+    }
+    else {
+        foreach ($lista_productos as $producto) {
+            $unProdu = array(); // una lista por cada producto
+            $unProdu['nombre'] = $producto->getNombre();
+            $unProdu['precio'] = $producto->getPrecio();
+            $unProdu['supermercado'] = $producto->getSupermercado();
+            $unProdu['ubicacion'] = $producto->getUbicacion();
+            $respuesta->productos[] = $unProdu; // mi objeto va a tener una lista con listas de productos para poder convertirlo a JSON
+        }
+    }
+} elseif (isset($_GET['busquedaUbi'])) {
+    $lista_productosUbi = producto::getProductosUbicacionBD($_GET['busquedaUbi']);
+    if (empty($lista_productosUbi)) {
+        $respuesta->productos = []; // devuelve una lista vacía si no encuentra nada
+    }
+    else {
+        foreach ($lista_productosUbi as $producto) {
+            $unProdu = array(); // una lista por cada producto
+            $unProdu['nombre'] = $producto->getNombre();
+            $unProdu['precio'] = $producto->getPrecio();
+            $unProdu['supermercado'] = $producto->getSupermercado();
+            $unProdu['ubicacion'] = $producto->getUbicacion();
+            $respuesta->productos[] = $unProdu;
+        }
+    }
 }
-else {
-    $obj = new stdClass();
-    $obj->productos = $lista_productos;
-    $myJSON = json_encode($obj);
-}
-echo $myJSON;
+echo json_encode($respuesta);
 ?>

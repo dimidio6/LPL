@@ -32,3 +32,11 @@ th, td, tr {
     border: 1px solid black;
     padding: 0 4px;
 }
+div {
+    margin-bottom: 2rem;
+}
+select {
+    text-align: center;
+    justify-content: center;
+    cursor: pointer;
+}

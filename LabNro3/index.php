@@ -10,6 +10,21 @@
 <body>
     <header><h1>Consumidores unidos</h1></header>
     <section>
+        <div>
+            <label for="ubicaciones">B&uacute;squeda por Ubicaci&oacute;n</label>
+            <select id="ubicaciones" name="ubicaciones">
+                <option selected value="">----</option>
+                <?php
+                include_once("producto.class.php");
+                $listaUbicaciones = producto::getUbicacionesBD();
+                if (count($listaUbicaciones)>0) {
+                    foreach ($listaUbicaciones as $ubicacion) {
+                        echo '<option value="'.$ubicacion.'">'.$ubicacion.'</option>';
+                    }
+                }
+                ?>
+            </select>
+        </div>
         <label for="input_busqueda">B&uacute;squeda por Producto</label>
         <input type="text" id="input_busqueda" name="input_busqueda">
         <article>
