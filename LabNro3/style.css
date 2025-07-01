@@ -15,6 +15,12 @@ h1 {
     margin-top: 2rem;
     margin-bottom: 3rem;
 }
+h3 {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: black;
+}
 article {
     text-align: center;
     justify-content: center;
@@ -38,5 +44,35 @@ div {
 select {
     text-align: center;
     justify-content: center;
+    cursor: pointer;
+}
+span {
+    font-weight: bold;
+    color: red;
+}
+#todos {
+    font-weight: bold;
+    color: black;
+}
+#modal {
+    width: 50vw;
+    height: 70vh;
+    transform: translate(50%, 20%);
+    overflow: hidden; /* hace que no se aparezca la barra de desplazamiento */
+    border-radius: 5px;
+}
+.producto_detalles {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+}
+#tablaDetalles {
+    text-align: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 3rem;
+}
+#btnCerrar_dialog {
+    margin-top: 2rem;
     cursor: pointer;
 }

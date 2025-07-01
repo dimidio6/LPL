@@ -13,7 +13,7 @@
         <div>
             <label for="ubicaciones">B&uacute;squeda por Ubicaci&oacute;n</label>
             <select id="ubicaciones" name="ubicaciones">
-                <option selected value="">----</option>
+                <option id="todos" selected value="">Todos</option>
                 <?php
                 include_once("producto.class.php");
                 $listaUbicaciones = producto::getUbicacionesBD();
@@ -41,6 +41,25 @@
                 </tbody>
             </table>
         </article>
+        <dialog id="modal">
+            <h3 id="nombre_productoDetalles"></h3>
+            <table id="tablaDetalles">
+                <thead>
+                    <tr>
+                        <th>Supermercado</th>
+                        <th>Precio</th>
+                        <th>Ubicaci&oacute;n</th>
+                    </tr>
+                </thead>
+                <tbody id="cuerpo_tablaDetalles">
+                </tbody>
+            </table>
+            <p id="menor_precio"></p>
+            <p id="diferencia_precio"></p>
+            <form method="dialog">
+                <button id="btnCerrar_dialog">Cerrar</button>
+            </form>
+        </dialog>
     </section>
     <footer>Lab N°3 - Angelo Duarte</footer>
 </body>
