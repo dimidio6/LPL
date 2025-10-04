@@ -1,1 +1,0 @@
-Un solo archivo "back.php" PARA TRATAR TODAS LAS PETICIONES? o distintos archivos .php según el tipo de petición?

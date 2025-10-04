@@ -1,0 +1,41 @@
+    function crear_tabla(filas, columnas, insertar) {
+        let tabla = document.createElement("table");
+        let fila_principal = document.createElement("tr");
+        columnas.forEach(columna => { // Crear 1ra fila (Encabezados)
+            let encabezado = document.createElement("th");
+            encabezado.textContent = columna;
+            fila_principal.appendChild(encabezado);
+        })
+        tabla.appendChild(fila_principal);
+        filas.forEach(fila => {
+            let fil = document.createElement("tr");
+            columnas.forEach(columna => {
+                let col = document.createElement("td");
+                switch (columna) { // con el switch agrego las distintas opciones que quiero para cuando varie mi tabla
+                    case 'Logo':
+                        let imagen = document.createElement("img");
+                        imagen.setAttribute("src",fila['Logo']);
+                        col.appendChild(imagen);
+                        // Agrego un evento a la imagen. Para esto les asigno a todas una clase
+                        col.setAttribute("class", "logo_empresa");
+                        col.addEventListener("click", function() {
+                            // alert(fila['Empresa']);
+                            mostrar_detalles(fila['Empresa']); // muestro detalles pero para eso agarro el nombre de la Empresa
+                        })
+                        break;
+                    case 'Web':
+                        let link = document.createElement("a");
+                        link.setAttribute("href",fila['Web']); // seteo la URL
+                        link.textContent = fila['Web']; // seteo el texto
+                        col.appendChild(link);
+                        break;
+                    default:
+                        col.textContent = fila[columna]; // sería como fila.columna, pero columnas es un array
+                        break;
+                }
+                fil.appendChild(col);
+            })
+            tabla.appendChild(fil);
+        })
+        insertar.appendChild(tabla);
+    }
