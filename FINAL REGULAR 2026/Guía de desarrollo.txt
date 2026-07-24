@@ -1,0 +1,110 @@
+EL ROSCO
+
+Objetivo: Adivinar las 27 palabras. UNA por cada letra del abecedario, con un TIEMPO determinado.
+
+Por cada palabra, se recibe ayuda del tipo:
+- Letra inicial 
+- Definición
+- Cantidad de letras (Cuando se selecciona AYUDA INICIAL en -> CONFIG. PARTIDA)
+
+BDD: MySQL
+Nombre de usuario
+Contraseña (ENCRIPTADA)
+Correo electrónico
+Fecha de nacimiento
+50 palabas por cada DIFICULTAD
+// script para crear todas las tablas //
+
+PÁGINAS:
+- INICIO DE SESIÓN / REGISTRO
+- CONFIG. PARTIDA --> JUEGO
+- RANKING
+
+---------------------------------------------------------------------------------------------------
+FORMULARIO DE REGISTRO |
+------------------------
+- Nombre de usuario: No puede haber 2 jugadores con el mismo nombre (consistir de la BDD)
+- Contraseña:
+	- Mín. 8 caracteres alfanuméricos
+	- Mín. un número
+	- Mín. una letra MAYUS
+	- Mín. un caracter especial
+	- **GUARDARSE ENCRIPTADA EN LA BDD*
+- Correo electrónico
+- Fecha de nacimiento
+------------------
+INICIO DE SESIÓN |
+------------------
+Cada vez que desee jugar:
+- Nombre de usuario
+- Contraseña
+
+-----------------
+CONFIG. PARTIDA |
+-----------------
+Se debe poder elegir:
+- Dificultad de las palabras: BAJA | MEDIA | ALTA
+- Ayuda adicional: SI (indica cantidad de letras) | NO (no indica)
+- Tiempo máx. de partida: 2min | 3min | 5mmin | sin límite
+
+--------------------
+COMIENZO DEL JUEGO |
+--------------------
+1. En base a 'DIFICULTAD' se obtienen las 27 palabras de la BDD.
+2. 
+Se arma el tablero con las letras del abecedario (el rosco)
+Se visualiza lista de las 3 MEJORES PARTIDA del USUARIO
+3.
+El usuario inicia el rosco:
+- Corre el tiempo
+- En el tablero se ve todo el tiempo Cant. de palabras acertadas y Tiempo transcurrido
+- Se muestra la definición de la palabra para la letra "A"
+- Si 'AYUDA ADICIONAL' = SI -> También se muestra la cantidad de letras
+- El usuario puede:
+	- Arriesgar la palabra:
+		- La palabra queda inhabilitada (deja de estar disponible para adivinar)
+		- SI ACIERTA = +1 PUNTO | NO ACIERTA = NO SUMA
+		- Se informa el RESULTADO junto a la LETRA asociada:
+			- CORRECTO | INCORRECTO (y la palabra)
+
+	- Pasar a la siguiente letra:
+		- Se muestra la definición asociada a dicha letra
+		- Si 'AYUDA ADICIONAL' = SI -> También se muestra la cantidad de letras
+		- El usuario nuevamente vuelve a poder Arriesgar la palabra | Pasar a la siguiente letra...
+
+ESTE PROCEDIMIENTO SE REPITE HASTA FINALIZAR EL JUEGO. VA DE MANERA SECUENCIAL A hasta Z, y REPITE.
+
+
+-----------------------------
+CONDICIONES DE FINALIZACIÓN |
+-----------------------------
+a. Usuario acertó TODAS las palabras
+b. NO quedan palabras DISPONIBLES a ADIVINAR (todas acertadas y/o desacertadas)
+c. FIN del TIEMPO
+d. Jugador ABANDONA la partida.
+
+--------------
+FIN DE JUEGO |
+--------------
+Se informa resultado: Palabras acertadas -> Mensaje
+de la forma:
+27: Excelente partida!!
+23-26: Muy bien!!
+19-22: Bien!
+15-18: Mmm... estuvo regular!
+<14: Que mal!! A seguir estudiando!
+
+Se registra en la BDD con los datos más importantes (ver)***
+
+---------------------
+OTROS ##############|
+---------------------
+CUALQUIER USUARIO (registrado o no) debe poder acceder a una página de estadísticas generales del juego. En ella se muestra información relativa a todas las partidas:
+- JUGADOR MÁS GANADOR (GENERAL | POR DIFICULTAD)
+- USUARIOS MÁS RÁPIDOS (demoraron menos en ganar)
+- RANKING GENERAL DE PARTIDAS
+- ETC...
+
+
+
+
