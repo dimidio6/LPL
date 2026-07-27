@@ -1,7 +1,11 @@
 body {
-  background-color: #a99696;
+  background-color: #11b46d62;
   margin: 0;
+  padding: 0;
   display: grid;
   place-items: center;
   font-family: Candara, sans-serif;
+}
+header {
+  margin: 2rem 0;
 }
