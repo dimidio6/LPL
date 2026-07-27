@@ -1,0 +1,7 @@
+body {
+  background-color: #a99696;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  font-family: Candara, sans-serif;
+}
