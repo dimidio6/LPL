@@ -1,9 +1,8 @@
 import "./inicio.css";
 
-export function Login() {
+export function Sesion() {
 
-    // funciones para manejar los eventos
-
+    /// funciones para manejar los eventos
     // MANEJADOR DEL REGISTRO
     const handleRegistro = async (e) => {
         e.preventDefault(); // para que la página no se recargue cuando se envía le formulario
@@ -12,11 +11,15 @@ export function Login() {
         const datosRegistro = Object.fromEntries(formData);
 
         try {
-            const respuesta = await fetch('http://localhost/el_rosco_backend/registro.php', { // se comunica con el PHP (registro)
+            const respuesta_registro = await fetch('http://localhost/el_rosco_backend/registro.php', { // se comunica con el PHP (registro)
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(datosRegistro)
             });
+
+            const resultado_registro = await respuesta_registro.json();
+
+            alert(resultado_registro.mensaje);
         } catch (error) {
             console.error(error);
         }
@@ -36,21 +39,23 @@ export function Login() {
             body: JSON.stringify(datosLogin)
             });
 
-            const resultado = await respuesta_login.json();
+            const resultado_login = await respuesta_login.json();
 
-            if (resultado.status === 'success') {
-                console.log("Datos del usuario:", resultado.datos_user);
+            // .status, .datos_user, etc.. son sacados directamente del json_encode del login.php
+            if (resultado_login.status === 'success') {
+                console.log("Datos del usuario:", resultado_login.datos_user);
                 //////////////////////////////////////////////
                 // ACÁ PUEDEN IR COOKIES, LOCALSTORAGE.. ETC..
                 //////////////////////////////////////////////
             } else {
-                alert(resultado.mensaje);
+                alert(resultado_login.mensaje);
             }
         } catch (error) {
             console.error(error);
         }
     }
 
+    // PARTE VISUAL QUE RENDERIZARA
     return (
         <section>
             <article className="art-inicio-sesion">
