@@ -8,6 +8,10 @@ export function Configuracion({ onIniciar }) { // recibe un componente de su pad
         const formData = new FormData(e.target);
         const datosConfig = Object.fromEntries(formData);
 
+        // Los checkbox en HTML devuelven "on" si están marcados
+        // Lo convertimos a un booleano (true/false) para que sea más fácil de usar después.
+        datosConfig.ayuda = formData.get('ayuda') === 'on';
+
         onIniciar(datosConfig); // utilizamos la función que le pasó APP, para mandar hacia arriba como prop los datos de config.
     }
 
