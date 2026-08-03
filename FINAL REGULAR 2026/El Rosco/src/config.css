@@ -1,0 +1,64 @@
+/* El overlay oscurece toda la pantalla y se pone por encima de todo */
+#overlay-config {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7); /* Negro con 70% de opacidad */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999; /* Se asegura de estar arriba del rosco */
+}
+dialog {
+    border: solid 2px;
+    border-radius: 7%;
+    width: 30%;
+    height: 65%;
+}
+.elementos-form {
+    margin: 3rem 0;
+}
+select {
+    cursor: pointer;
+    margin-left: 0.7rem;
+}
+input {
+    cursor: pointer;
+}
+fieldset.tiempos {
+    border: none;
+    border-radius: 15px;
+    padding: 15px 20px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.opciones-tiempos {
+    font-family: arial;
+    font-size: 14px;
+    display: flex;
+    flex-direction: absolute;
+    gap: 0 8px; /* separación entre las opciones */
+    align-items: center;
+    justify-content: center;
+}
+#label-ayuda {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 0;
+}
+input#ayuda {
+    cursor: pointer;
+    margin-left: 0.8rem;
+    transform: scale(1.4);
+}
+button {
+    cursor: pointer;
+    border: solid 2px #00000037;
+    border-radius: 10px;
+    transform: scale(1.2);
+}
+button:hover {
+    background-color: #fef4f4;
+}

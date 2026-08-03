@@ -1,14 +1,17 @@
 import "./inicio.css";
+import { useNavigate } from "react-router-dom";
 
 export function Sesion() {
+
+    const navegar = useNavigate();
 
     /// funciones para manejar los eventos
     // MANEJADOR DEL REGISTRO
     const handleRegistro = async (e) => {
         e.preventDefault(); // para que la página no se recargue cuando se envía le formulario
 
-        const formData = new FormData(e.target);
-        const datosRegistro = Object.fromEntries(formData);
+        const formData = new FormData(e.target); // JavaScript recolecta toda la info del formulario, pero en un formato ilegíble
+        const datosRegistro = Object.fromEntries(formData); // Object.fromEntries lo transforma a un Objeto JavaScript legíble y manipulable. Permite acceder a lo que se completó en cada input con "." y el name
 
         try {
             const respuesta_registro = await fetch('http://localhost/el_rosco_backend/registro.php', { // se comunica con el PHP (registro)
@@ -19,7 +22,11 @@ export function Sesion() {
 
             const resultado_registro = await respuesta_registro.json();
 
-            alert(resultado_registro.mensaje);
+            if (resultado_registro.status === 'success') {
+                navegar('/juego'); // si el registro es exitoso dirige al juego
+            } else {
+                alert(resultado_registro.mensaje); // si falla muestra el error
+            }
         } catch (error) {
             console.error(error);
         }
@@ -44,6 +51,7 @@ export function Sesion() {
             // .status, .datos_user, etc.. son sacados directamente del json_encode del login.php
             if (resultado_login.status === 'success') {
                 console.log("Datos del usuario:", resultado_login.datos_user);
+                navegar('/juego'); // si el logeo es exitoso dirige al juego
                 //////////////////////////////////////////////
                 // ACÁ PUEDEN IR COOKIES, LOCALSTORAGE.. ETC..
                 //////////////////////////////////////////////
@@ -55,7 +63,7 @@ export function Sesion() {
         }
     }
 
-    // PARTE VISUAL QUE RENDERIZARA
+    // PARTE VISUAL QUE RENDERIZARÁ
     return (
         <section>
             <article className="art-inicio-sesion">
