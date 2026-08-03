@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom/client'; // La Librería de React que renderiza 
 import {StrictMode} from 'react'; // para comprobaciones (detectar problemas)
 import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
 
-import {Sesion} from './inicio.jsx';
+import {Sesion} from './Inicio.jsx';
 import {App} from './App.jsx';
 import './index.css';
 

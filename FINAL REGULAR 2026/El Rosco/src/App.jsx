@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Configuracion } from './config.jsx';
-import { Rosco } from './rosco.jsx';
+import { Rosco } from './componentes/rosco.jsx';
 
 export function App () {
 
@@ -19,7 +19,6 @@ export function App () {
         console.log("Partida iniciada. Ajustes: ", datosConfiguracion);
     }
 
-    // useEffect se dispara únicamente cuando el componente reciba la config. inicial
     // useEffect -> (configuración (función con la lógica del Efecto), dependencias (valores que al actualizarse ejecuten el Efecto))
     useEffect(() => {
         if (!ajustesJuego) { // si sigue seteado en null (o sea no se ejecutó iniciarPartida y el modal sigue abierto)

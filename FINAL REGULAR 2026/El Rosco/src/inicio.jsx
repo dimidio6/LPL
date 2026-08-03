@@ -1,5 +1,6 @@
-import "./inicio.css";
 import { useNavigate } from "react-router-dom";
+import { Login } from "./componentes/login";
+import { Registro } from "./componentes/registro";
 
 export function Sesion() {
 
@@ -66,38 +67,9 @@ export function Sesion() {
     // PARTE VISUAL QUE RENDERIZARÁ
     return (
         <section>
-            <article className="art-inicio-sesion">
-                <h1>Inicio de sesión</h1>
-                <div>
-                    <form name="fm-inicio-sesion" onSubmit={handleLogin}>
-                        <label htmlFor="user_inicio">Usuario</label>
-                        <input type="text" name="user_inicio" id="user_inicio"/>
-                        <label htmlFor="pass_inicio">Contraseña</label>
-                        <input type="password" name="pass_inicio" id="pass_inicio"/>
-                        <button type="submit" name="submit_inicio">
-                            Iniciar sesión
-                        </button>
-                    </form>
-                </div>
-            </article>
-            <article className="art-registro">
-                <h1>Registrarse</h1>
-                <div>
-                    <form name="fm-registro" onSubmit={handleRegistro}> {/* cuando mando el form, lo dirige a su manejador */}
-                        <label htmlFor="user_registro">Usuario</label>
-                        <input type="text" name="user_registro" id="user_registro"/>
-                        <label htmlFor="pass_registro">Contraseña</label>
-                        <input type="password"name="pass_registro" id="pass_registro"/>
-                        <label htmlFor="correo">Correo electrónico</label>
-                        <input type="email" name="correo" id="correo"/>
-                        <label htmlFor="fecha_nac">Fecha de nacimiento</label>
-                        <input type="date" name="fecha_nac" id="fecha_nac" />
-                        <button type="submit" name="submit_registro">
-                            Registrarse
-                        </button>
-                    </form>
-                </div>
-            </article>
+            {/* LOS DATOS DE LOS FORM VIENEN COMO PROP PARA SUS MANEJADORES */}
+            <Login handleLogin={handleLogin}/> 
+            <Registro handleRegistro={handleRegistro}/> 
             <h3>Rankings</h3>
         </section>
     );

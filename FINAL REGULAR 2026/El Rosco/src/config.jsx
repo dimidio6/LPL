@@ -1,4 +1,4 @@
-import './config.css'
+import './index.css'
 
 export function Configuracion({ onIniciar }) { // recibe un componente de su padre (App)
 
