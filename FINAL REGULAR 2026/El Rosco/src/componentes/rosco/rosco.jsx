@@ -1,4 +1,4 @@
-import './rosco.css';
+import './app.css';
 
 export function Rosco() {
 

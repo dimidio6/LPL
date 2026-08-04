@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Configuracion } from './config.jsx';
-import { Rosco } from './componentes/rosco.jsx';
+import { Configuracion } from '../componentes/config/config.jsx';
+import { Rosco } from '../componentes/rosco/rosco.jsx';
+import { BotonJugar } from '../componentes/rosco/botonJugar.jsx';
 
 export function App () {
 
@@ -51,6 +52,7 @@ export function App () {
             {/* && = IF. Si es true, lee lo que continúa a su derecha, caso contrario corta ahí. Útil en vez de un IF tradicional, porque JSX no lo permite en medio de una etiqueta */}
             {mostrarConfig && <Configuracion onIniciar={iniciarPartida} />}
             <Rosco />
+            <BotonJugar/>
         </>
     )
 }
