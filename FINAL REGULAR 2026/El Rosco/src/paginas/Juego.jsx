@@ -3,7 +3,7 @@ import { Configuracion } from '../componentes/config/config.jsx';
 import { Rosco } from '../componentes/rosco/rosco.jsx';
 import { BotonJugar } from '../componentes/rosco/botonJugar.jsx';
 
-export function App () {
+export function Partida () {
 
     // useState devuelve [estado actual(cómo el estado inicial seteado, ej: true en mostrarConfig), set..Algo: que permite actualizar el estado(función)]
     const [mostrarConfig, setMostrarConfig] = useState(true); // state para mostrar/ocultar la Configuración
