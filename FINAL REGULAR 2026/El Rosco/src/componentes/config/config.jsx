@@ -1,6 +1,6 @@
 import './config.css'
 
-export function Configuracion({ onIniciar }) { // recibe un componente de su padre (App)
+export function Configuracion({ onGuardar }) { // recibe un componente de su padre (Juego)
 
     const handleConfig = async (e) => {
         e.preventDefault(); // para que la página no se recargue cuando se envía le formulario
@@ -12,7 +12,7 @@ export function Configuracion({ onIniciar }) { // recibe un componente de su pad
         // Lo convertimos a un booleano (true/false) para que sea más fácil de usar después.
         datosConfig.ayuda = formData.get('ayuda') === 'on';
 
-        onIniciar(datosConfig); // utilizamos la función que le pasó APP, para mandar hacia arriba como prop los datos de config.
+        onGuardar(datosConfig); // utilizamos la función que le pasó Juego, para mandar hacia arriba como prop los datos de config.
     }
 
     return (

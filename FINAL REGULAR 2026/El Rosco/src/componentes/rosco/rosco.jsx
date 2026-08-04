@@ -1,6 +1,6 @@
-import './app.css';
+import './juego.css';
 
-export function Rosco() {
+export function Rosco({children}) { // recibe lo que está contenido dentro de él
 
     const abecedario = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
     const radio = 180; // por si queremos agrandar o achicar el círculo. DEPENDIENTE DEL TAMAÑO DE SU CONTENEDOR (rosco.css -> rosco-circulo)
@@ -25,6 +25,7 @@ export function Rosco() {
                         </div>
                     );
                 })}
+                {children}
             </div>
         </section>
     )

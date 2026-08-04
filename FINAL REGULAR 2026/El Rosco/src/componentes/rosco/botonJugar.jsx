@@ -1,9 +1,9 @@
-import './app.css';
+import './juego.css';
 
-export function BotonJugar() {
+export function BotonJugar({onIniciar}) {
     return (
-        <div>
-            <button>Jugar</button>
-        </div>
+        <>
+            <button type='button' id='boton-jugar' onClick={onIniciar}>JUGAR</button>
+        </>
     )
 }

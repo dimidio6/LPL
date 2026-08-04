@@ -32,3 +32,25 @@
     border: 2px solid white;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
 }
+#boton-jugar {
+    /* para dejarlo en medio del rosco */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -70%);
+    /* */
+    border-radius: 50%;
+    padding: 30px 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.3rem;
+}
+#boton-jugar:hover {
+    background-color: #119513;
+    color: white;
+    transition: all 0.2s ease-in-out;
+}
+#tiempo {
+    position: absolute;
+    top: -15vh;
+    left: 26vw;
+}
