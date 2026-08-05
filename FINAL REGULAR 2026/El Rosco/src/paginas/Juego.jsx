@@ -16,6 +16,11 @@ export function Partida () {
     // para arrancar el juego
     const [juegoActivo, setJuegoActivo] = useState(false);
 
+    // Lógica del Rosco
+    const [indiceActual, setIndiceActual] = useState(0); // para saber por cuál palabra va (ya que están en un array)
+    const [respuesta, setRespuesta] = useState(""); // Respuesta del usuario en el input
+    const [estadoLetras, setEstadoLetras] = useState([]); // Array para guardar el estado de cada letra (correcta, pendiente, etc..)
+
     // Función para que utilice el Componente 'Config' ESTA ES UNA FORMA DE Q EL COMPONENTE HIJO PASE DATOS HACIA ARRIBA, para Juego.jsx
     const guardarConfig = (datosConfiguracion) => {
         setAjustesjuego(datosConfiguracion); // setea los datos de configuración
@@ -38,6 +43,8 @@ export function Partida () {
 
                 setPalabras(resultado_palabras.palabras); // actualiza el estado de palabras con el ARRAY DE LAS PALABRAS traídas de la BDD. .palabras viene directo del PHP
                 setTiempoRestante(Number(ajustesJuego.tiempo)) // .tiempo viene directo del PHP
+                // Para arrancar en mi array de estados, con TODAS las letras en 'pendiente'
+                setEstadoLetras(Array(resultado_palabras.palabras.length).fill('pendiente'));
 
                 console.log("Palabras traidas: ", resultado_palabras.palabras);
             } catch (error) {
@@ -52,14 +59,7 @@ export function Partida () {
 
     const iniciarJuego = () => {
         setJuegoActivo(true); // señal de largada: el botón de inicio fue presionado
-        console.log(juegoActivo)
     }
-
-    // function iniciarJuego() {
-    //     setJuegoActivo(true); // señal de largada: el botón de inicio fue presionado
-    //     console.log(juegoActivo);
-    //     alert("HOLA");
-    // }
 
     // CRONÓMETRO
     useEffect(() => {
@@ -71,7 +71,7 @@ export function Partida () {
         const intervalo = setInterval(() => {
             setTiempoRestante((tiempoAnterior) => { // ejecuta setTiempoRestante
                 if (tiempoAnterior < 1) { // si se acaba el tiempo
-                    clearIntervalo(intervalo); // apagamos el reloj para que deje de actualizarse del ID = intervalo
+                    clearInterval(intervalo); // apagamos el reloj para que deje de actualizarse del ID = intervalo
                     setJuegoActivo(false); // cambia el estado del juegoActivo
                     alert("Se acabó el tiempo.");
                     return 0;
@@ -92,14 +92,25 @@ export function Partida () {
             <Rosco>
                 {/* CHILDREN del Rosco */}
                 {/* si: el juego no comenzó */}
-                {!juegoActivo ? ( // IF
+                {!juegoActivo && ( // IF
                     <BotonJugar onIniciar={iniciarJuego}/> // renderiza el botón de Jugar
-                ) : // ELSE
+                ) // ELSE: aparezca la definición aca
+                } 
+            </Rosco>
+            {juegoActivo && (
+                <>
                     <div id='tiempo'>
                         <h2>Tiempo: {tiempoRestante}</h2>
                     </div>
-                }
-            </Rosco>
+                    <div id='controles-juego'>
+                        <form>
+                            <input type='text' id='input-adivinar' placeholder='Respuesta...' autoFocus/>
+                            <button type='submit' className='botones-juego'>Adivinar</button>
+                            <button type='button' className='botones-juego'>Pasapalabra</button>
+                        </form>
+                    </div>
+                </>
+            )}
         </>
     )
 }

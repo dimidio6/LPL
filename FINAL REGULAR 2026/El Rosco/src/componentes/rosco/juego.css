@@ -2,14 +2,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 80vh;
-    min-width: 60vw;
+    min-height: 500px;
+    min-width: 500px;
 }
 
 .rosco-circulo {
     position: relative;
-    width: 60vw;
-    height: 60vh;
+    width: 450px;
+    height: 450px;
+    /* aspect-ratio: 1/1; */
     border-radius: 50%;
 }
 
@@ -51,6 +52,17 @@
 }
 #tiempo {
     position: absolute;
-    top: -15vh;
-    left: 26vw;
+    top: 13%;
+    left: 46%;
+}
+#controles-juego {
+    display: grid;
+    place-items: center;
+    margin-top: -25px;
+}
+.botones-juego {
+    font-size: 12px;
+    margin: 5px 10px;
+    background-color: #42b6f4;
+    border-radius: 10%;
 }
