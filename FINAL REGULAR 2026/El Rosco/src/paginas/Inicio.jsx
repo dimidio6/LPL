@@ -16,6 +16,7 @@ export function Sesion() {
 
         try {
             const respuesta_registro = await fetch('http://localhost/el_rosco_backend/registro.php', { // se comunica con el PHP (registro)
+            credentials: 'include', // permite la cookie
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(datosRegistro)
@@ -42,6 +43,7 @@ export function Sesion() {
 
         try {
             const respuesta_login = await fetch('http://localhost/el_rosco_backend/login.php', { // se comunica con el PHP (login)
+            credentials: 'include', // permite la cookie
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(datosLogin)

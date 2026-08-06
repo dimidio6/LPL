@@ -16,7 +16,7 @@ export function Partida() {
 
     // para arrancar el juego
     const [juegoActivo, setJuegoActivo] = useState(false);
-
+    const [idPartida, setIdPartida] = useState(null);
     // Lógica del Rosco
     const [estadoLetras, setEstadoLetras] = useState([]); // Array para guardar el estado de cada letra (correcta, pendiente, etc..)
     const [indiceActual, setIndiceActual] = useState(0); // para saber por cuál palabra va (ya que están en un array)
@@ -58,8 +58,31 @@ export function Partida() {
         traerPalabras();
     }, [ajustesJuego]); // ajustesJuego -> dependencia, cuando cambie se ejecuta useEffect()
 
-    const iniciarJuego = () => {
-        setJuegoActivo(true); // señal de largada: el botón de inicio fue presionado
+
+    // CREA LA PARTIDA, CONECTANDO LOS DATOS DE LA MISMA CON EL PHP
+    const iniciarJuego = async () => {
+        setJuegoActivo(true); // señal de largada
+
+        try {
+            const respuesta_partida = await fetch('http://localhost/el_rosco_backend/manejar_partida.php', {
+                method: 'POST',
+                credentials: 'include', // Obliga a React a mandar la COOKIE (contiene el id_user)
+                headers: {'Content-Type': 'application/json'}, // le avisa al PHP que el formato es JSON
+                body: JSON.stringify({
+                    accion: 'crear',
+                    dificultad: ajustesJuego.dificultad,
+                    tiempo_partida: ajustesJuego.tiempo,
+                    ayuda: ajustesJuego.ayuda
+                })
+            });
+            const datos = await respuesta_partida.json();
+
+            if (datos.success) {
+                setIdPartida(datos.id_partida); // Guarda el ID de partida que trajo el PHP
+            }
+        } catch (error) {
+            console.error("Error al crear la partida", error);
+        }
     }
 
     // CRONÓMETRO
@@ -73,15 +96,12 @@ export function Partida() {
             setTiempoRestante((tiempoAnterior) => { // ejecuta setTiempoRestante
                 if (tiempoAnterior < 1) { // si se acaba el tiempo
                     clearInterval(intervalo); // apagamos el reloj para que deje de actualizarse del ID = intervalo
-                    setJuegoActivo(false); // cambia el estado del juegoActivo
-                    alert("Se acabó el tiempo.");
                     return 0;
                 }
                 return tiempoAnterior - 1; // va disminuyendo en 1 el contador
             })
         }, 1000); // cada 1000ms = 1seg
 
-        // CAMBIAR ESTO DESPUÉSSS /////////////////////////////////////////////////////////////// (QUE NO SE APAGUE)
         return () => clearInterval(intervalo); // para apagar el reloj si salimos de la pantalla
     }, [juegoActivo, ajustesJuego]); // dependencias del useEffect
 
