@@ -1,0 +1,9 @@
+Juego.jsx
+-----------------------------------------
+funcion avanzarTurno
+
+estadosActualizados: su propósito es saber si para la letra del turno que sigue, ¿cuál es su estado? si ya fue adivinada o aún sigue pendiente, y así saber si pasar el turno por ella o saltearla.
+
+funcion adivinar
+
+nuevosEstados: su propósito, en cambio, es actualizar el estado correspondiente a esa letra. (pendiente | correcta | incorrecta)

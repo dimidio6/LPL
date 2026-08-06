@@ -66,3 +66,24 @@
     background-color: #42b6f4;
     border-radius: 10%;
 }
+#texto-definicion {
+    position: absolute;
+    font-size: 1.2rem;
+    width: 50%;
+    top: 27%;
+    left: 24%;
+}
+#palabra-relacion {
+    position: absolute;
+    font-size: 1.2rem;
+    width: 50%;
+    top: 20%;
+    left: 24%;
+}
+#caja-ayuda {
+    position: absolute;
+    font-size: 1.2rem;
+    width: 50%;
+    top: 63%;
+    left: 24%;
+}

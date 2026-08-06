@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import { Configuracion } from '../componentes/config/config.jsx';
 import { Rosco } from '../componentes/rosco/rosco.jsx';
 import { BotonJugar } from '../componentes/rosco/botonJugar.jsx';
+import { InfoPalabra } from '../componentes/rosco/tarjetaPalabra.jsx';
 
-export function Partida () {
+export function Partida() {
 
     // useState devuelve [estado actual(cómo el estado inicial seteado, ej: true en mostrarConfig), set..Algo: que permite actualizar el estado(función)]
     const [mostrarConfig, setMostrarConfig] = useState(true); // state para mostrar/ocultar la Configuración
@@ -17,9 +18,9 @@ export function Partida () {
     const [juegoActivo, setJuegoActivo] = useState(false);
 
     // Lógica del Rosco
+    const [estadoLetras, setEstadoLetras] = useState([]); // Array para guardar el estado de cada letra (correcta, pendiente, etc..)
     const [indiceActual, setIndiceActual] = useState(0); // para saber por cuál palabra va (ya que están en un array)
     const [respuesta, setRespuesta] = useState(""); // Respuesta del usuario en el input
-    const [estadoLetras, setEstadoLetras] = useState([]); // Array para guardar el estado de cada letra (correcta, pendiente, etc..)
 
     // Función para que utilice el Componente 'Config' ESTA ES UNA FORMA DE Q EL COMPONENTE HIJO PASE DATOS HACIA ARRIBA, para Juego.jsx
     const guardarConfig = (datosConfiguracion) => {
@@ -53,7 +54,7 @@ export function Partida () {
                 // por si queremos poner una PANTALLA DE CARGA (usar state de cargando, ver como hacer que funcione)
             }
         }
-        
+
         traerPalabras();
     }, [ajustesJuego]); // ajustesJuego -> dependencia, cuando cambie se ejecuta useEffect()
 
@@ -84,18 +85,81 @@ export function Partida () {
         return () => clearInterval(intervalo); // para apagar el reloj si salimos de la pantalla
     }, [juegoActivo, ajustesJuego]); // dependencias del useEffect
 
-    return(
+    // TURNOS DEL ROSCO
+    const avanzarTurno = (estadosActualizados) => {
+        let proximoIndice = indiceActual + 1; // índice correspondiente al número de la próxima letra en el array
+        let letrasRevisadas = 0;
+
+        while (letrasRevisadas < palabras.length) { // mientras no se hayan revisado ya todas las letras básicamente
+            if (proximoIndice > palabras.length) { // lógica para poder dar más de una vuelta al rosco
+                proximoIndice = 0; // cuando ya completó la vuelta (llegó al último índice), reinicia el índice
+            }
+            if (estadosActualizados[proximoIndice] === 'pendiente') {
+                setIndiceActual(proximoIndice); // AVANZA 1 TURNO, A LA SIGUIENTE PALABRA
+                return;
+            }
+            // incremento en +1
+            proximoIndice++;
+            letrasRevisadas++;
+        }
+        // Acá ya revisó todas las letras y ninguna debió quedar 'pendiente'
+        setJuegoActivo(false);
+        alert("Rosco terminado");
+    }
+
+    // ADIVINAR PALABRA
+    const adivinar = (e) => {
+        e.preventDefault(); // para prevenir el comportamiento por defecto (que al mandar el submit recargue la página), y manejarlo con JS en 2°plano
+
+        if (respuesta.trim() === "") { return; } // No puedo mandar el input vacío. trim = remueve espacios en blanco
+
+        const palabraCorrecta = palabras[indiceActual].palabra.toLowerCase(); // trae la palabra CORRECTA del array de palabras cargado
+        const intento = respuesta.trim().toLowerCase();
+
+        const nuevosEstados = [...estadoLetras]; // copia el array de todos lo estados, ... indica la propagación en todos los índices
+        // debe copiarse todo el array, porque para que React detecte el cambio debe alterarse toda la estructura, y no 1 solo valor.
+
+        if (intento === palabraCorrecta) {
+            nuevosEstados[indiceActual] = 'correcta';
+        } else {
+            nuevosEstados[indiceActual] = 'incorrecta';
+        }
+
+        setEstadoLetras(nuevosEstados) // actualiza el array con 1 de sus índices cambiado
+        setRespuesta(""); // Limpia el input
+
+        // AVANZA UN TURNO EN EL ROSCO //
+        avanzarTurno(nuevosEstados); // Con el estado de las letras actualizado
+    }
+
+
+    // PASAR PALABRA
+    const pasar_palabra = () => {
+        // const nuevosEstados = [...estadoLetras]; // copia del array de estados
+        // nuevosEstados[indiceActual] = 'pendiente'; // sigue en pendiente para que pueda jugarse en el próx. turno
+
+        // setEstadoLetras(nuevosEstados);
+        setRespuesta(""); // Limpia el input
+
+        // AVANZA UN TURNO EN EL ROSCO //
+        avanzarTurno(estadoLetras);
+    }
+
+    return (
         <>
             {/* arranca con mostrarConfig = true y renderiza <Config> */}
             {/* && = IF. Si es true, lee lo que continúa a su derecha, caso contrario corta ahí. Útil en vez de un IF tradicional, porque JSX no lo permite en medio de una etiqueta */}
-            {mostrarConfig && <Configuracion onGuardar={guardarConfig} />}
+            {mostrarConfig && !juegoActivo &&
+                <Configuracion onGuardar={guardarConfig} />}
             <Rosco>
                 {/* CHILDREN del Rosco */}
                 {/* si: el juego no comenzó */}
-                {!juegoActivo && ( // IF
-                    <BotonJugar onIniciar={iniciarJuego}/> // renderiza el botón de Jugar
-                ) // ELSE: aparezca la definición aca
-                } 
+                {!juegoActivo ? ( // IF
+                    <BotonJugar onIniciar={iniciarJuego} /> // renderiza el botón de Jugar
+                ) : ( // ELSE: aparezca la definición aca
+                    <InfoPalabra palabraActual={palabras[indiceActual]} mostrarAyuda={ajustesJuego.ayuda}/> // pasa como prop: palabra actual, la opción de ayuda de la config 
+                )
+                }
             </Rosco>
             {juegoActivo && (
                 <>
@@ -103,10 +167,12 @@ export function Partida () {
                         <h2>Tiempo: {tiempoRestante}</h2>
                     </div>
                     <div id='controles-juego'>
-                        <form>
-                            <input type='text' id='input-adivinar' placeholder='Respuesta...' autoFocus/>
+                        <form onSubmit={adivinar}> {/* un FORM para que ande el ENTER */}
+                            {/* actualiza el estado de 'respuesta' con cada tecla */}
+                            <input type='text' id='input-adivinar' placeholder='Respuesta...' autoFocus
+                                value={respuesta} onChange={(e) => setRespuesta(e.target.value)} />
                             <button type='submit' className='botones-juego'>Adivinar</button>
-                            <button type='button' className='botones-juego'>Pasapalabra</button>
+                            <button type='button' className='botones-juego' onClick={pasar_palabra}>Pasapalabra</button>
                         </form>
                     </div>
                 </>
