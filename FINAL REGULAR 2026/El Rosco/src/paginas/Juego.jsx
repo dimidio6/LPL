@@ -132,7 +132,6 @@ export function Partida() {
         avanzarTurno(nuevosEstados); // Con el estado de las letras actualizado
     }
 
-
     // PASAR PALABRA
     const pasar_palabra = () => {
         // const nuevosEstados = [...estadoLetras]; // copia del array de estados
@@ -151,7 +150,7 @@ export function Partida() {
             {/* && = IF. Si es true, lee lo que continúa a su derecha, caso contrario corta ahí. Útil en vez de un IF tradicional, porque JSX no lo permite en medio de una etiqueta */}
             {mostrarConfig && !juegoActivo &&
                 <Configuracion onGuardar={guardarConfig} />}
-            <Rosco>
+            <Rosco estadoLetras={estadoLetras} indiceActual={indiceActual}>
                 {/* CHILDREN del Rosco */}
                 {/* si: el juego no comenzó */}
                 {!juegoActivo ? ( // IF

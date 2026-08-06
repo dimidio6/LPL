@@ -1,6 +1,6 @@
 import './juego.css';
 
-export function Rosco({children}) { // recibe lo que está contenido dentro de él
+export function Rosco({children, estadoLetras = [], indiceActual}) { // recibe lo que está contenido dentro de él
 
     const abecedario = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
     const radio = 180; // por si queremos agrandar o achicar el círculo. DEPENDIENTE DEL TAMAÑO DE SU CONTENEDOR (rosco.css -> rosco-circulo)
@@ -15,9 +15,26 @@ export function Rosco({children}) { // recibe lo que está contenido dentro de �
                     const anguloCorregido = angulo - 90;
                     // la correción es necesaria, porque la posición de inicio deja a la letra apuntando a las "3" del reloj
                     // simplemente resto -90 al ángulo para que arranque desde las "12" del reloj
+
+                    // LÓGICA DE COLORES (para asignarles una clase según el estado de la letra)
+                    const estadoDeEstaLetra = estadoLetras[posicion] || 'pendiente'; // guardamos el estado de la letra. si no tiene nada asignamos 'pendiente'
+                    // variable para definir las Clases CSS
+                    let letraPintada = '';
+                    if (estadoDeEstaLetra === 'correcta') {
+                        letraPintada = 'letra-correcta';
+                    } else if (estadoDeEstaLetra === 'incorrecta') {
+                        letraPintada = 'letra-incorrecta';
+                    } else {
+                        letraPintada = 'letra-pendiente';
+                    }
+                    // LÓGICA PARA LA LETRA ACTUAL
+                    const esElTurnoActual = posicion === indiceActual; // booleano que verifica si es la letra que se está jugando AHORA
+                    const letraActiva = esElTurnoActual ? 'letra-activa' : '';
+
                     return ( // retorno la letra
                         // key = atributo de React para identificar de manera única un elemento de una lista
-                        <div className='rosco-letra' key={posicion} style={
+                        // en className le asigno 3 CLASES A LA VEZ, para estilizar según el caso
+                        <div className={`rosco-letra ${letraPintada} ${letraActiva}`} key={posicion} style={
                             { transform: `rotate(${anguloCorregido}deg) translate(${radio}px) rotate(${-anguloCorregido}deg)`}
                         }> {/* estilizo acá porque depende de los cálculos matemáticos que obtengo en esta parte */}
                         {/* rotate ajusa el ángulo. translate lo empuja desde el centro hacia afuera. */}
