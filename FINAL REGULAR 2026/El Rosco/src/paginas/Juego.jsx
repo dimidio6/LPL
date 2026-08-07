@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Configuracion } from '../componentes/config/config.jsx';
 import { Rosco } from '../componentes/rosco/rosco.jsx';
 import { BotonJugar } from '../componentes/rosco/botonJugar.jsx';
@@ -9,8 +9,10 @@ export function Partida() {
     // useState devuelve [estado actual(cómo el estado inicial seteado, ej: true en mostrarConfig), set..Algo: que permite actualizar el estado(función)]
     const [mostrarConfig, setMostrarConfig] = useState(true); // state para mostrar/ocultar la Configuración
     const [ajustesJuego, setAjustesjuego] = useState(null); // state para guardar los datos de la partida
-
+    
+    const tiempoTranscurridoRef = useRef(0);
     const [tiempoRestante, setTiempoRestante] = useState(0); // tiempo de partida (inicializado en 0)
+
     const [palabras, setPalabras] = useState([]); // inicializa un array vacío para las palabras
     const [cargando, setCargando] = useState(false); // cómo pantalla de carga para cuando haga la consulta a la BDD
 
@@ -19,6 +21,10 @@ export function Partida() {
     const [idPartida, setIdPartida] = useState(null);
     // Lógica del Rosco
     const [estadoLetras, setEstadoLetras] = useState([]); // Array para guardar el estado de cada letra (correcta, pendiente, etc..)
+    const estadoLetrasRef = useRef([]); // misma info de estadoLetras pero sin problemas de stale closures
+    useEffect(() => {
+        estadoLetrasRef.current = estadoLetras;
+    }, [estadoLetras]);
     const [indiceActual, setIndiceActual] = useState(0); // para saber por cuál palabra va (ya que están en un array)
     const [respuesta, setRespuesta] = useState(""); // Respuesta del usuario en el input
 
@@ -59,7 +65,7 @@ export function Partida() {
     }, [ajustesJuego]); // ajustesJuego -> dependencia, cuando cambie se ejecuta useEffect()
 
 
-    // CREA LA PARTIDA, CONECTANDO LOS DATOS DE LA MISMA CON EL PHP
+    // CREA LA PARTIDA, CONECTANDO SUS DATOS CON EL PHP
     const iniciarJuego = async () => {
         setJuegoActivo(true); // señal de largada
 
@@ -85,25 +91,72 @@ export function Partida() {
         }
     }
 
-    // CRONÓMETRO
+    // FINALIZA LA PARTIDA, ACTUALIZA SU ESTADO EN EL BACK
+    const finalizarJuego = async (estadosFinales, estadoPartida) => {
+        // Cuenta cuántas quedaron en 'correcta'
+        const puntajeFinal = estadosFinales.filter(e => e === 'correcta').length;
+
+        try {
+            const respuesta_actualizar = await fetch('http://localhost/el_rosco_backend/manejar_partida.php', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    accion: 'actualizar',
+                    id_partida: idPartida,
+                    puntaje: puntajeFinal,
+                    estado: estadoPartida,
+                    tiempo_transcurrido: tiempoTranscurridoRef.current
+                })
+            });
+            const datos = await respuesta_actualizar.json();
+            console.log("Partida actualizada:", datos);
+        } catch (error) {
+            console.error("Error al actualizar la partida", error);
+        }
+    }
+
+
+    // CRONÓMETRO: 2 useEffect para el control del Tiempo //
+    //
     useEffect(() => {
-        if (!juegoActivo || ajustesJuego.tiempo === '0') {
+        if (!juegoActivo) {
             return;
         }
         // setInterval ejecuta: (función, cada cierto tiempo en ms).
         // esto el navegador lo devuelve en un ID que lo guardamos en la const 'intervalo'
         const intervalo = setInterval(() => {
-            setTiempoRestante((tiempoAnterior) => { // ejecuta setTiempoRestante
-                if (tiempoAnterior < 1) { // si se acaba el tiempo
-                    clearInterval(intervalo); // apagamos el reloj para que deje de actualizarse del ID = intervalo
-                    return 0;
-                }
-                return tiempoAnterior - 1; // va disminuyendo en 1 el contador
-            })
+            tiempoTranscurridoRef.current += 1; // siempre suma de a +1
+            if (ajustesJuego.tiempo === '0') { // Sin límite de tiempo
+                setTiempoRestante(tiempoTranscurridoRef.current);
+            } else { // Con límite de tiempo
+                const restante = Number(ajustesJuego.tiempo) - tiempoTranscurridoRef.current;
+                setTiempoRestante(Math.max(restante, 0));
+            }
+            // setTiempoRestante((tiempoAnterior) => { // ejecuta setTiempoRestante
+            //     if (tiempoAnterior <= 1) { // CASO DONDE FINALIZA LA PARTIDA POR FIN DE TIEMPO
+            //         clearInterval(intervalo); // apagamos el reloj para que deje de actualizarse del ID = intervalo
+            //         setJuegoActivo(false);
+            //         finalizarJuego(estadoLetras, 'tiempo_agotado'); // le pasa: aciertos y estado del fin de juego
+            //         return 0;
+            //     }
+            //     return tiempoAnterior - 1; // va disminuyendo en 1 el contador
+            // })
         }, 1000); // cada 1000ms = 1seg
 
         return () => clearInterval(intervalo); // para apagar el reloj si salimos de la pantalla
     }, [juegoActivo, ajustesJuego]); // dependencias del useEffect
+
+    // Para cuando se agota el tiempo
+    useEffect(() => {
+        if (!juegoActivo) return;
+        if (ajustesJuego.tiempo === '0') return; // sin límite, no aplica
+        if (tiempoRestante > 0) return;
+
+        setJuegoActivo(false);
+        finalizarJuego(estadoLetrasRef.current, 'tiempo_agotado');
+    }, [tiempoRestante, juegoActivo]);
+
 
     // TURNOS DEL ROSCO
     const avanzarTurno = (estadosActualizados) => {
@@ -124,6 +177,7 @@ export function Partida() {
         }
         // Acá ya revisó todas las letras y ninguna debió quedar 'pendiente'
         setJuegoActivo(false);
+        finalizarJuego(estadosActualizados, 'completada');
         alert("Rosco terminado");
     }
 
@@ -163,6 +217,7 @@ export function Partida() {
         // AVANZA UN TURNO EN EL ROSCO //
         avanzarTurno(estadoLetras);
     }
+
 
     return (
         <>
