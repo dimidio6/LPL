@@ -4,15 +4,17 @@ import { Configuracion } from '../componentes/config/config.jsx';
 import { Rosco } from '../componentes/rosco/rosco.jsx';
 import { BotonJugar } from '../componentes/rosco/botonJugar.jsx';
 import { InfoPalabra } from '../componentes/rosco/tarjetaPalabra.jsx';
+import { ModalFinPartida } from '../componentes/finPartida/finPartida.jsx';
 
-const navigate = useNavigate(); // para navegar hacia las otras páginas cuando finalice la partida
 
 export function Partida() {
+    
+    const navegar = useNavigate(); // para navegar hacia las otras páginas cuando finalice la partida
 
     // useState devuelve [estado actual(cómo el estado inicial seteado, ej: true en mostrarConfig), set..Algo: que permite actualizar el estado(función)]
     const [mostrarConfig, setMostrarConfig] = useState(true); // state para mostrar/ocultar la Configuración
     const [ajustesJuego, setAjustesjuego] = useState(null); // state para guardar los datos de la partida
-    
+
     const tiempoTranscurridoRef = useRef(0);
     const [tiempoRestante, setTiempoRestante] = useState(0); // tiempo de partida (inicializado en 0)
 
@@ -31,7 +33,7 @@ export function Partida() {
     const [indiceActual, setIndiceActual] = useState(0); // para saber por cuál palabra va (ya que están en un array)
     const [respuesta, setRespuesta] = useState(""); // Respuesta del usuario en el input
     // Para luego imprimir los datos de la partida
-    const [resultadoPartida, setResultadoPartida] = useState(null);
+    const [resultadoPartida, setResultadoPartida] = useState(null); // cuando se setea se muestra
 
     // Función para que utilice el Componente 'Config' ESTA ES UNA FORMA DE Q EL COMPONENTE HIJO PASE DATOS HACIA ARRIBA, para Juego.jsx
     const guardarConfig = (datosConfiguracion) => {
@@ -78,7 +80,7 @@ export function Partida() {
             const respuesta_partida = await fetch('http://localhost/el_rosco_backend/manejar_partida.php', {
                 method: 'POST',
                 credentials: 'include', // Obliga a React a mandar la COOKIE (contiene el id_user)
-                headers: {'Content-Type': 'application/json'}, // le avisa al PHP que el formato es JSON
+                headers: { 'Content-Type': 'application/json' }, // le avisa al PHP que el formato es JSON
                 body: JSON.stringify({
                     accion: 'crear',
                     dificultad: ajustesJuego.dificultad,
@@ -105,7 +107,7 @@ export function Partida() {
             const respuesta_actualizar = await fetch('http://localhost/el_rosco_backend/manejar_partida.php', {
                 method: 'POST',
                 credentials: 'include',
-                headers: {'Content-Type': 'application/json'},
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     accion: 'actualizar',
                     id_partida: idPartida,
@@ -118,7 +120,7 @@ export function Partida() {
             console.log("Partida actualizada:", datos);
 
             // Guarda el resultado de la partida para imprimirlo (independientemente si se guardó en la BDD)
-            setResultadoPartida( {
+            setResultadoPartida({
                 puntaje: puntajeFinal,
                 estado: estadoPartida,
                 tiempo: tiempoTranscurridoRef.current
@@ -126,13 +128,13 @@ export function Partida() {
         } catch (error) {
             console.error("Error al actualizar la partida", error);
             // Aunque falle el guardado en BDD vamos a imprimir el resultado al usuario igual (para q no quede trabado)
-            setResultadoPartida({puntaje: puntajeFinal, estado: estadoPartida, tiempo: tiempoTranscurridoRef.current});
+            setResultadoPartida({ puntaje: puntajeFinal, estado: estadoPartida, tiempo: tiempoTranscurridoRef.current });
         }
     }
 
 
     // CRONÓMETRO: 2 useEffect para el control del Tiempo //
-    //
+    // Para contar hacia adelante o hacia atrás (según el modo)
     useEffect(() => {
         if (!juegoActivo) {
             return;
@@ -151,7 +153,7 @@ export function Partida() {
 
         return () => clearInterval(intervalo); // para apagar el reloj si salimos de la pantalla
     }, [juegoActivo, ajustesJuego]); // dependencias del useEffect
-
+    //
     // Para cuando se agota el tiempo
     useEffect(() => {
         if (!juegoActivo) return;
@@ -169,7 +171,7 @@ export function Partida() {
         let letrasRevisadas = 0;
 
         while (letrasRevisadas < palabras.length) { // mientras no se hayan revisado ya todas las letras básicamente
-            if (proximoIndice > palabras.length) { // lógica para poder dar más de una vuelta al rosco
+            if (proximoIndice >= palabras.length) { // lógica para poder dar más de una vuelta al rosco
                 proximoIndice = 0; // cuando ya completó la vuelta (llegó al último índice), reinicia el índice
             }
             if (estadosActualizados[proximoIndice] === 'pendiente') {
@@ -183,7 +185,6 @@ export function Partida() {
         // Acá ya revisó todas las letras y ninguna debió quedar 'pendiente'
         setJuegoActivo(false);
         finalizarJuego(estadosActualizados, 'completada');
-        alert("Rosco terminado");
     }
 
     // ADIVINAR PALABRA
@@ -224,6 +225,39 @@ export function Partida() {
     }
 
 
+    /////// NAVEGACIÓN //////////
+    const jugarDeNuevo = () => { // reinicia todos los datos de partida
+        setResultadoPartida(null);
+        setMostrarConfig(true); // vuelve a mostrar las configuraciones de partida por su useEffect
+        setAjustesjuego(null);
+        setJuegoActivo(false);
+        setIdPartida(null);
+        setPalabras([]);
+        setEstadoLetras([]);
+        setIndiceActual(0);
+        setRespuesta("");
+        setTiempoRestante(0);
+        tiempoTranscurridoRef.current = 0;
+    }
+
+    const volverInicio = async () => {
+        try {
+            await fetch('http://localhost/el_rosco_backend/logout.php', { // DESTRUYE LA SESIÓN EN EL BACK
+                method: 'POST',
+                credentials: 'include'
+            });
+        } catch (error) {
+            console.error("Error al cerrar sesión", error);
+        }
+        navegar('/'); // manda a Inicio.jsx, sea cual sea el resultado del logout
+    }
+
+    const irRankings = () => {
+        navegar('/rankings');
+    }
+
+
+
     return (
         <>
             {/* arranca con mostrarConfig = true y renderiza <Config> */}
@@ -236,7 +270,7 @@ export function Partida() {
                 {!juegoActivo ? ( // IF
                     <BotonJugar onIniciar={iniciarJuego} /> // renderiza el botón de Jugar
                 ) : ( // ELSE: aparezca la definición aca
-                    <InfoPalabra palabraActual={palabras[indiceActual]} mostrarAyuda={ajustesJuego.ayuda}/> // pasa como prop: palabra actual, la opción de ayuda de la config 
+                    <InfoPalabra palabraActual={palabras[indiceActual]} mostrarAyuda={ajustesJuego.ayuda} /> // pasa como prop: palabra actual, la opción de ayuda de la config 
                 )
                 }
             </Rosco>
@@ -256,6 +290,8 @@ export function Partida() {
                     </div>
                 </>
             )}
+            {resultadoPartida && (<ModalFinPartida resultado={resultadoPartida}
+                onJugarDeNuevo={jugarDeNuevo} onVolverInicio={volverInicio} onIrRankings={irRankings} />)}
         </>
     )
 }

@@ -1,0 +1,38 @@
+#caja-fin {
+    position: fixed;
+    z-index: 1000; /* por encima de todo lo demás (el Rosco, controles, etc.) */
+    border: none;
+    border-radius: 12px;
+    padding: 2rem;
+    min-width: 300px;
+    background: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+#caja-fin::backdrop {
+    background: rgba(0, 0, 0, 0.6); /* fondo oscuro semi-transparente sobre TODA la pantalla */
+}
+
+#espacio-botones {
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+.boton-fin {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-top: 4rem;
+    padding: 0.5rem;
+}
+.boton-fin:hover {
+    background-color: #9ee6a0;
+}
+#puntaje-fin {
+    font-size: 1.3rem;
+    color: #4CAF50;
+}
+#mensaje-fin {
+    margin-top: 5rem;
+}
+#tiempo-fin {
+    font-family:'Courier New', Courier, monospace;
+}

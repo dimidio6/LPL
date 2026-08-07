@@ -3,6 +3,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Sesion } from './paginas/Inicio.jsx';
 import { Partida } from './paginas/Juego.jsx';
+import { Estadisticas } from './paginas/Rankings.jsx';
 
 export function App() {
     return (
@@ -12,6 +13,7 @@ export function App() {
                 <Routes>
                     <Route path='/' element={<Sesion />}/>
                     <Route path='/juego' element={<Partida />}/>
+                    <Route path='/rankings' element={<Estadisticas />}/>
                     <Route path='*' element={<Navigate to="/" />}/> {/* cualquier otra ruta manda a Sesion */}
                 </Routes>
             </main>
