@@ -1,8 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Configuracion } from '../componentes/config/config.jsx';
 import { Rosco } from '../componentes/rosco/rosco.jsx';
 import { BotonJugar } from '../componentes/rosco/botonJugar.jsx';
 import { InfoPalabra } from '../componentes/rosco/tarjetaPalabra.jsx';
+
+const navigate = useNavigate(); // para navegar hacia las otras páginas cuando finalice la partida
 
 export function Partida() {
 
@@ -27,6 +30,8 @@ export function Partida() {
     }, [estadoLetras]);
     const [indiceActual, setIndiceActual] = useState(0); // para saber por cuál palabra va (ya que están en un array)
     const [respuesta, setRespuesta] = useState(""); // Respuesta del usuario en el input
+    // Para luego imprimir los datos de la partida
+    const [resultadoPartida, setResultadoPartida] = useState(null);
 
     // Función para que utilice el Componente 'Config' ESTA ES UNA FORMA DE Q EL COMPONENTE HIJO PASE DATOS HACIA ARRIBA, para Juego.jsx
     const guardarConfig = (datosConfiguracion) => {
@@ -93,7 +98,7 @@ export function Partida() {
 
     // FINALIZA LA PARTIDA, ACTUALIZA SU ESTADO EN EL BACK
     const finalizarJuego = async (estadosFinales, estadoPartida) => {
-        // Cuenta cuántas quedaron en 'correcta'
+        // Cuenta cuántas letras quedaron en 'correcta'
         const puntajeFinal = estadosFinales.filter(e => e === 'correcta').length;
 
         try {
@@ -111,8 +116,17 @@ export function Partida() {
             });
             const datos = await respuesta_actualizar.json();
             console.log("Partida actualizada:", datos);
+
+            // Guarda el resultado de la partida para imprimirlo (independientemente si se guardó en la BDD)
+            setResultadoPartida( {
+                puntaje: puntajeFinal,
+                estado: estadoPartida,
+                tiempo: tiempoTranscurridoRef.current
+            });
         } catch (error) {
             console.error("Error al actualizar la partida", error);
+            // Aunque falle el guardado en BDD vamos a imprimir el resultado al usuario igual (para q no quede trabado)
+            setResultadoPartida({puntaje: puntajeFinal, estado: estadoPartida, tiempo: tiempoTranscurridoRef.current});
         }
     }
 
@@ -133,15 +147,6 @@ export function Partida() {
                 const restante = Number(ajustesJuego.tiempo) - tiempoTranscurridoRef.current;
                 setTiempoRestante(Math.max(restante, 0));
             }
-            // setTiempoRestante((tiempoAnterior) => { // ejecuta setTiempoRestante
-            //     if (tiempoAnterior <= 1) { // CASO DONDE FINALIZA LA PARTIDA POR FIN DE TIEMPO
-            //         clearInterval(intervalo); // apagamos el reloj para que deje de actualizarse del ID = intervalo
-            //         setJuegoActivo(false);
-            //         finalizarJuego(estadoLetras, 'tiempo_agotado'); // le pasa: aciertos y estado del fin de juego
-            //         return 0;
-            //     }
-            //     return tiempoAnterior - 1; // va disminuyendo en 1 el contador
-            // })
         }, 1000); // cada 1000ms = 1seg
 
         return () => clearInterval(intervalo); // para apagar el reloj si salimos de la pantalla
