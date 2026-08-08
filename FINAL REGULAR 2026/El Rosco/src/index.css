@@ -1,5 +1,5 @@
 body {
-    background-color: #4a57e2d6;
+    background-image:radial-gradient(50% 50% at 50% 50%, #8e8585, #0c5b5e);
     margin: 0;
     padding: 0;
     text-align: center;
@@ -13,12 +13,25 @@ header {
 }
 button {
     cursor: pointer;
+    background-color: #dbcbcb;
     border: solid 2px #00000037;
     border-radius: 10px;
     transform: scale(1.2);
 }
 button:hover {
-    background-color: #fef4f4;
+    background-color: #ffffff;
+}
+input {
+    border: 2px solid #020702;
+    border-radius: 5px;
+}
+input:focus {
+    outline: none;
+    border: 2px solid #020702;
+}
+input:hover[type="text"], input:hover[type="password"], input:hover[type="email"] {
+    box-shadow: 3px 5px 3px #91b692;
+    transition: 0.3s all;
 }
 #zona-juego { /* Proviene de Juego.jsx */
     display: grid;

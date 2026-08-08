@@ -10,20 +10,27 @@
     align-items: center;
     z-index: 999; /* Se asegura de estar arriba del rosco */
 }
-dialog {
+dialog#ajustes {
+    lighting-color: aquamarine;
+    top: 18%;
     border: solid 2px;
     border-radius: 7%;
     width: 30%;
-    height: 65%;
+    height: 50%;
 }
 .elementos-form {
-    margin: 3rem 0;
+    margin: 1.5rem 0;
 }
-select {
+select#dificultad {
+    background-color: transparent;
+    background-image: linear-gradient(to bottom, #b4c0bac8, #eeffee 33%);
+    line-height: inherit;
     cursor: pointer;
     margin-left: 0.7rem;
+    border-radius: 5%;
 }
 input {
+    box-shadow:none;
     cursor: pointer;
 }
 fieldset.tiempos {
@@ -41,6 +48,7 @@ fieldset.tiempos {
     gap: 0 8px; /* separación entre las opciones */
     align-items: center;
     justify-content: center;
+    margin-top: 0;
 }
 #label-ayuda {
     display: flex;
@@ -50,5 +58,27 @@ fieldset.tiempos {
 input#ayuda {
     cursor: pointer;
     margin-left: 0.8rem;
-    transform: scale(1.4);
+    margin-top: 4px;
+    transform: scale(1.5);
+    font: inherit;
+    color: currentColor;
+    width: 0.9rem;
+    height: 0.9rem;
+    border: 0.15em solid currentColor;
+    border-radius: 0.15em;
+}
+input#ayuda:hover {
+    transition: all 0.2s ease-in-out;
+}
+input#ayuda:checked {
+    transition: 120ms transform ease-in-out; /* retardo de la transición */
+    transform: scale(1.5) rotate(1turn); /* da 1 vuelta */
+}
+#boton-fin-config {
+    margin-top: 0.4rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+#boton-fin-config:hover {
+    background-color: #a0dea286;
 }

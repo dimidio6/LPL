@@ -17,7 +17,7 @@ export function Rosco({children, estadoLetras = [], indiceActual}) { // recibe l
                     // simplemente resto -90 al ángulo para que arranque desde las "12" del reloj
 
                     // LÓGICA DE COLORES (para asignarles una clase según el estado de la letra)
-                    const estadoDeEstaLetra = estadoLetras[posicion] || 'pendiente'; // guardamos el estado de la letra. si no tiene nada asignamos 'pendiente'
+                    const estadoDeEstaLetra = estadoLetras[posicion]; // guardamos el estado de la letra. si no tiene nada asignamos 'pendiente'
                     // variable para definir las Clases CSS
                     let letraPintada = '';
                     if (estadoDeEstaLetra === 'correcta') {
@@ -33,7 +33,7 @@ export function Rosco({children, estadoLetras = [], indiceActual}) { // recibe l
 
                     return ( // retorno la letra
                         // key = atributo de React para identificar de manera única un elemento de una lista
-                        // en className le asigno 3 CLASES A LA VEZ, para estilizar según el caso
+                        // en className le asigno 4 CLASES A LA VEZ, para estilizar según el caso
                         <div className={`rosco-letra ${letraPintada} ${letraActiva}`} key={posicion} style={
                             { transform: `rotate(${anguloCorregido}deg) translate(${radio}px) rotate(${-anguloCorregido}deg)`}
                         }> {/* estilizo acá porque depende de los cálculos matemáticos que obtengo en esta parte */}

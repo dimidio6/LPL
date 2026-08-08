@@ -17,7 +17,7 @@ export function Configuracion({ onGuardar }) { // recibe un componente de su pad
 
     return (
         <div id='overlay-config'>
-            <dialog open>
+            <dialog id='ajustes' open>
                 <h2><u>Ajustes de la partida</u></h2>
                 <form onSubmit={handleConfig}>
                     <div className='elementos-form'>
@@ -59,7 +59,7 @@ export function Configuracion({ onGuardar }) { // recibe un componente de su pad
                         </label>
                     </div>
                     <div className='elementos-form'>
-                        <button type='submit'>JUGAR</button>
+                        <button id='boton-fin-config' type='submit'>Guardar</button>
                     </div>
                 </form>
             </dialog>

@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { Login } from "../componentes/autenticacion/login";
 import { Registro } from "../componentes/autenticacion/registro";
 
+
 export function Sesion() {
 
     const navegar = useNavigate();

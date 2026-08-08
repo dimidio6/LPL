@@ -44,11 +44,20 @@
     padding: 30px 20px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1.3rem;
+    transition: background-color 0.3s ease;
 }
 #boton-jugar:hover {
     background-color: #119513;
     color: white;
     transition: all 0.2s ease-in-out;
+}
+#boton-jugar:active {
+    background-color: #108b1086;
+    color: white;
+    /* position: absolute; */
+    transform: scale(0.85);
+    transform: translate(-50%, -70%);
+    transition: background-color 0.3s ease;
 }
 #tiempo {
     position: absolute;
@@ -94,7 +103,8 @@
     background-color: red;
 }
 .letra-pendiente {
-    background-color: #0056b3;
+    color: black;
+    background-color: #ecdc30;
 }
 .letra-activa {
     box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.6);
@@ -103,11 +113,14 @@
     max-width: 320px;
 }
 #tabla-partidas {
+    background-color: #ddd3d3;
+    border-radius: 10px;
     width: 100%;
     border-collapse: collapse;
     border:#060606 2px solid;
 }
 #tabla-partidas th {
+    background-color: #8dcbacc8;
     border:#060606 2px solid;
     padding: 0 12px;
     text-align: center;
