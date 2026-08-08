@@ -5,6 +5,7 @@ import { Rosco } from '../componentes/rosco/rosco.jsx';
 import { BotonJugar } from '../componentes/rosco/botonJugar.jsx';
 import { InfoPalabra } from '../componentes/rosco/tarjetaPalabra.jsx';
 import { ModalFinPartida } from '../componentes/finPartida/finPartida.jsx';
+import { MejoresPartidas } from '../componentes/rosco/mejoresPartidas.jsx';
 
 
 export function Partida() {
@@ -14,10 +15,10 @@ export function Partida() {
     // useState devuelve [estado actual(cómo el estado inicial seteado, ej: true en mostrarConfig), set..Algo: que permite actualizar el estado(función)]
     const [mostrarConfig, setMostrarConfig] = useState(true); // state para mostrar/ocultar la Configuración
     const [ajustesJuego, setAjustesjuego] = useState(null); // state para guardar los datos de la partida
+    const [mejoresPartidas, setMejoresPartidas] = useState([]); // state para traer las mejores partidas del usuario
 
     const tiempoTranscurridoRef = useRef(0);
     const [tiempoRestante, setTiempoRestante] = useState(0); // tiempo de partida (inicializado en 0)
-
     const [palabras, setPalabras] = useState([]); // inicializa un array vacío para las palabras
     const [cargando, setCargando] = useState(false); // cómo pantalla de carga para cuando haga la consulta a la BDD
 
@@ -71,6 +72,23 @@ export function Partida() {
         traerPalabras();
     }, [ajustesJuego]); // ajustesJuego -> dependencia, cuando cambie se ejecuta useEffect()
 
+    // TRAE LAS MEJORES PARTIDAS DEL USER (si tiene) DEL BACKEND
+    useEffect(() => {
+        const traerMejores = async () => {
+            try {
+                const respuesta_mejores = await fetch('http://localhost/el_rosco_backend/juego/mejores_partidas.php', {
+                    credentials: 'include'
+                });
+                const datos = await respuesta_mejores.json();
+                if (datos.success) {
+                    setMejoresPartidas(datos.mejores_partidas); // las setea usando el state
+                }
+            } catch (error) {
+                console.error("Error al traer mejores partidas", error);
+            }
+        };
+        traerMejores();
+    }, [resultadoPartida]); // corre cuando se carga el resultado de una partida (cuando apenas termina)
 
     // CREA LA PARTIDA, CONECTANDO SUS DATOS CON EL PHP
     const iniciarJuego = async () => {
@@ -304,16 +322,19 @@ export function Partida() {
             {/* && = IF. Si es true, lee lo que continúa a su derecha, caso contrario corta ahí. Útil en vez de un IF tradicional, porque JSX no lo permite en medio de una etiqueta */}
             {mostrarConfig && !juegoActivo &&
                 <Configuracion onGuardar={guardarConfig} />}
-            <Rosco estadoLetras={estadoLetras} indiceActual={indiceActual}>
-                {/* CHILDREN del Rosco */}
-                {/* si: el juego no comenzó */}
-                {!juegoActivo ? ( // IF
-                    <BotonJugar onIniciar={iniciarJuego} /> // renderiza el botón de Jugar
-                ) : ( // ELSE: aparezca la definición aca
-                    <InfoPalabra palabraActual={palabras[indiceActual]} mostrarAyuda={ajustesJuego.ayuda} /> // pasa como prop: palabra actual, la opción de ayuda de la config 
-                )
-                }
-            </Rosco>
+            <div id='zona-juego'>
+                <Rosco estadoLetras={estadoLetras} indiceActual={indiceActual}>
+                    {/* CHILDREN del Rosco */}
+                    {/* si: el juego no comenzó */}
+                    {!juegoActivo ? ( // IF
+                        <BotonJugar onIniciar={iniciarJuego} /> // renderiza el botón de Jugar
+                    ) : ( // ELSE: aparezca la definición aca
+                        <InfoPalabra palabraActual={palabras[indiceActual]} mostrarAyuda={ajustesJuego.ayuda} /> // pasa como prop: palabra actual, la opción de ayuda de la config 
+                    )
+                    }
+                </Rosco>
+                <MejoresPartidas partidas={mejoresPartidas}/> {/* llama a la función utilizando la variable del state cómo parámetro */}
+            </div>
             {juegoActivo && (
                 <>
                     <div id='tiempo'>

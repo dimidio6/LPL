@@ -1,5 +1,6 @@
 .rosco-contenedor {
     display: flex;
+    grid-column: 2;
     justify-content: center;
     align-items: center;
     min-height: 500px;
@@ -97,4 +98,21 @@
 }
 .letra-activa {
     box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.6);
+}
+#mejores-partidas {
+    max-width: 320px;
+}
+#tabla-partidas {
+    width: 100%;
+    border-collapse: collapse;
+    border:#060606 2px solid;
+}
+#tabla-partidas th {
+    border:#060606 2px solid;
+    padding: 0 12px;
+    text-align: center;
+    
+}
+#tabla-partidas td {
+    border:#060606 2px solid;
 }
