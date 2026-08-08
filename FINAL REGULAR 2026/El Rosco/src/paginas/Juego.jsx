@@ -42,8 +42,8 @@ export function Partida() {
         console.log("Partida iniciada. Ajustes: ", datosConfiguracion);
     }
 
-    // useEffect -> (configuración (función con la lógica del Efecto), dependencias (valores que al actualizarse ejecuten el Efecto))
     // BUSCA LAS PALABRAS DEL ROSCO
+    // useEffect -> (configuración (función con la lógica del Efecto), dependencias (valores que al actualizarse ejecuten el Efecto))
     useEffect(() => {
         if (!ajustesJuego) { // si sigue seteado en null (o sea no se ejecutó guardarConfig y el modal sigue abierto)
             return; // no hace nada
@@ -52,7 +52,7 @@ export function Partida() {
             setCargando(true); // NO FUNCIONA ESTE STATE ACÁ. VER CÓMO CAMBIARLO
             try {
                 // Manda la dificultad de los ajustesJuego al PHP por la URL
-                const respuesta_palabras = await fetch(`http://localhost/el_rosco_backend/traer_palabras.php?dificultad=${ajustesJuego.dificultad}`);
+                const respuesta_palabras = await fetch(`http://localhost/el_rosco_backend/juego/traer_palabras.php?dificultad=${ajustesJuego.dificultad}`);
                 const resultado_palabras = await respuesta_palabras.json();
 
                 setPalabras(resultado_palabras.palabras); // actualiza el estado de palabras con el ARRAY DE LAS PALABRAS traídas de la BDD. .palabras viene directo del PHP
@@ -77,7 +77,7 @@ export function Partida() {
         setJuegoActivo(true); // señal de largada
 
         try {
-            const respuesta_partida = await fetch('http://localhost/el_rosco_backend/manejar_partida.php', {
+            const respuesta_partida = await fetch('http://localhost/el_rosco_backend/juego/manejar_partida.php', {
                 method: 'POST',
                 credentials: 'include', // Obliga a React a mandar la COOKIE (contiene el id_user)
                 headers: { 'Content-Type': 'application/json' }, // le avisa al PHP que el formato es JSON
@@ -104,7 +104,7 @@ export function Partida() {
         const puntajeFinal = estadosFinales.filter(e => e === 'correcta').length;
 
         try {
-            const respuesta_actualizar = await fetch('http://localhost/el_rosco_backend/manejar_partida.php', {
+            const respuesta_actualizar = await fetch('http://localhost/el_rosco_backend/juego/manejar_partida.php', {
                 method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
@@ -132,6 +132,7 @@ export function Partida() {
         }
     }
 
+    ///////////////// LÓGICA DEL JUEGO ///////////////////////////
 
     // CRONÓMETRO: 2 useEffect para el control del Tiempo //
     // Para contar hacia adelante o hacia atrás (según el modo)
@@ -189,14 +190,24 @@ export function Partida() {
 
     // ADIVINAR PALABRA
     const adivinar = (e) => {
+
+        // normaliza la palabra traída de la BDD para poder compararla con el input del user
+        function normalizar(texto) {
+            return texto
+                .normalize('NFD')                // separa la letra de su tilde (á -> a + ´)
+                .replace(/[\u0300-\u036f]/g, '') // elimina las tildes sueltas
+                .toLowerCase()
+                .trim();
+        }
+
         e.preventDefault(); // para prevenir el comportamiento por defecto (que al mandar el submit recargue la página), y manejarlo con JS en 2°plano
 
         if (respuesta.trim() === "") { return; } // No puedo mandar el input vacío. trim = remueve espacios en blanco
 
-        const palabraCorrecta = palabras[indiceActual].palabra.toLowerCase(); // trae la palabra CORRECTA del array de palabras cargado
-        const intento = respuesta.trim().toLowerCase();
+        const palabraCorrecta = normalizar(palabras[indiceActual].palabra); // trae la palabra CORRECTA (y normalizada) del array de palabras cargado 
+        const intento = normalizar(respuesta); // normaliza el intento también
 
-        const nuevosEstados = [...estadoLetras]; // copia el array de todos lo estados, ... indica la propagación en todos los índices
+        const nuevosEstados = [...estadoLetras]; // copia el array de todos lo estados, '...' indica la propagación en todos los índices
         // debe copiarse todo el array, porque para que React detecte el cambio debe alterarse toda la estructura, y no 1 solo valor.
 
         if (intento === palabraCorrecta) {
@@ -225,7 +236,8 @@ export function Partida() {
     }
 
 
-    /////// NAVEGACIÓN //////////
+    /////////////// NAVEGACIÓN /////////////////////
+
     const jugarDeNuevo = () => { // reinicia todos los datos de partida
         setResultadoPartida(null);
         setMostrarConfig(true); // vuelve a mostrar las configuraciones de partida por su useEffect
@@ -242,7 +254,7 @@ export function Partida() {
 
     const volverInicio = async () => {
         try {
-            await fetch('http://localhost/el_rosco_backend/logout.php', { // DESTRUYE LA SESIÓN EN EL BACK
+            await fetch('http://localhost/el_rosco_backend/autenticacion/logout.php', { // DESTRUYE LA SESIÓN EN EL BACK
                 method: 'POST',
                 credentials: 'include'
             });
@@ -256,6 +268,34 @@ export function Partida() {
         navegar('/rankings');
     }
 
+    // Por si el usuario cierra la pestaña/navegador
+    useEffect(() => {
+        // ESTE MANEJADOR SOLO SE EJECUTA POR EL OBJETO WINDOW DEBAJO SUYO, (sin importar que juegoActivo, idPartida cambien)
+        const manejadorBeforeUnload = () => {
+            if (juegoActivo && idPartida) {
+                // necesita el ref de estadoLetras porq el beforeunload se agregará como evento sólo por cada cambio [juegoActivo, idPartida]
+                // pudiendo dispararse muuucho después, quedando con un estadoLetras viejo.
+                const puntajeFinal = estadoLetrasRef.current.filter(e => e === 'correcta').length;
+
+                const datosPartida = JSON.stringify({
+                    accion: 'actualizar',
+                    id_partida: idPartida,
+                    puntaje: puntajeFinal,
+                    estado: 'abandonada',
+                    tiempo_transcurrido: tiempoTranscurridoRef.current
+                });
+                // manda el POST incluso si la página se está cerrando!
+                navigator.sendBeacon( // navigator es una API nativa que provee el navegador a través del objeto window
+                    'http://localhost/el_rosco_backend/juego/manejar_partida.php',
+                    new Blob([datosPartida], {type: 'application/json'}) // manda los datos anteriores como un json
+                );
+            }
+        };
+
+        // si el navegador dispara 'beforeunload' entonces SI se ejecuta el manejador de arriba
+        window.addEventListener('beforeunload', manejadorBeforeUnload);
+        return () => window.removeEventListener('beforeunload', manejadorBeforeUnload);
+    }, [juegoActivo, idPartida]);
 
 
     return (

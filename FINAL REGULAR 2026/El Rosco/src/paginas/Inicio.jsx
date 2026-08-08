@@ -15,7 +15,7 @@ export function Sesion() {
         const datosRegistro = Object.fromEntries(formData); // Object.fromEntries lo transforma a un Objeto JavaScript legíble y manipulable. Permite acceder a lo que se completó en cada input con "." y el name
 
         try {
-            const respuesta_registro = await fetch('http://localhost/el_rosco_backend/registro.php', { // se comunica con el PHP (registro)
+            const respuesta_registro = await fetch('http://localhost/el_rosco_backend/autenticacion/registro.php', { // se comunica con el PHP (registro)
             credentials: 'include', // permite la cookie
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -42,7 +42,7 @@ export function Sesion() {
         const datosLogin = Object.fromEntries(formData);
 
         try {
-            const respuesta_login = await fetch('http://localhost/el_rosco_backend/login.php', { // se comunica con el PHP (login)
+            const respuesta_login = await fetch('http://localhost/el_rosco_backend/autenticacion/login.php', { // se comunica con el PHP (login)
             credentials: 'include', // permite la cookie
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
