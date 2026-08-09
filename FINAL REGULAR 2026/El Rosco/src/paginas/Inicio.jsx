@@ -54,7 +54,7 @@ export function Sesion() {
 
             // .status, .datos_user, etc.. son sacados directamente del json_encode del login.php
             if (resultado_login.status === 'success') {
-                console.log("Datos del usuario:", resultado_login.datos_user);
+                // console.log("Datos del usuario:", resultado_login.datos_user);
                 navegar('/juego'); // si el logeo es exitoso dirige al juego
                 //////////////////////////////////////////////
                 // ACÁ PUEDEN IR COOKIES, LOCALSTORAGE.. ETC..
