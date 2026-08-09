@@ -1,0 +1,3 @@
+Para la página de Estadísticas opté por solo traer las partidas cuyo estado es: 'completada'. Es decir, las partidas que se hayan finalizado por otro motivo no se consideraron para las estadísticas generales. Tomé esta decisión ya que el pedido de la página de estadísticas me pareció más orientando a las victorias, a manera de armar un Ranking por mérito, que a un historial.
+
+Por otro lado, en las mejores partidas del usuario, consideré traer tanto las partidas con estado: 'completada', cómo 'tiempo_agotado', que aunque este ultimo puede no considerarse como una partida efectivamente finalizada, si cuenta con un puntaje que el usuario pueda visualizar, a modo de tener su propio historial.

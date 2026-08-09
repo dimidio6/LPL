@@ -1,0 +1,1 @@
+Aplicación web desarrollada para presentar cómo examen en la materia Laboratorio de Programación y Lenguajes. 2026

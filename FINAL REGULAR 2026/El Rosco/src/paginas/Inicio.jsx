@@ -74,7 +74,7 @@ export function Sesion() {
             <Login handleLogin={handleLogin}/> 
             <Registro handleRegistro={handleRegistro}/>
             <div id="caja-rankings">
-                <h1 id="titulo-rankings">Rankings</h1>
+                <h1 id="titulo-rankings">Ranking</h1>
                 <button type="button" onClick={() => navegar('/rankings')}>Ver Estadísticas</button> {/* OJO que 'navegar' tiene que venir en una arrow function para q React no lo ejecute apenas carga la pág. */}
             </div>
         </section>
