@@ -72,8 +72,11 @@ export function Sesion() {
         <section>
             {/* LOS DATOS DE LOS FORM VIENEN COMO PROP PARA SUS MANEJADORES */}
             <Login handleLogin={handleLogin}/> 
-            <Registro handleRegistro={handleRegistro}/> 
-            <h3>Rankings</h3>
+            <Registro handleRegistro={handleRegistro}/>
+            <div id="caja-rankings">
+                <h1 id="titulo-rankings">Rankings</h1>
+                <button type="button" onClick={() => navegar('/rankings')}>Ver Estadísticas</button> {/* OJO que 'navegar' tiene que venir en una arrow function para q React no lo ejecute apenas carga la pág. */}
+            </div>
         </section>
     );
 };
