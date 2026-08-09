@@ -61,7 +61,7 @@ export function Partida() {
                 // Para arrancar en mi array de estados, con TODAS las letras en 'pendiente'
                 setEstadoLetras(Array(resultado_palabras.palabras.length).fill('pendiente'));
 
-                console.log("Palabras traidas: ", resultado_palabras.palabras);
+                console.log("Palabras traidas.");
             } catch (error) {
                 console.error("Error al traer las palabras:", error);
             } finally {
